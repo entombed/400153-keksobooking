@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Андрей Бондаренко](https://up.htmlacademy.ru/javascript/10/user/400153).
-* Наставник: [Андрей Рыжаков].
+* Наставник: [Андрей Рыжаков](https://htmlacademy.ru/profile/id201015).
 
 ---
 
