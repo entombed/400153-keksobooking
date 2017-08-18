@@ -92,7 +92,8 @@ var getRandomItem = function (items) {
  */
 
 var getRandomUniqueItem = function (items) {
-  var randomItem = getRandomInt(0, items.length - 1);
+  var allItems = getItemLength(items);
+  var randomItem = getRandomInt(0, allItems - 1);
   return items.splice(randomItem, 1);
 };
 
