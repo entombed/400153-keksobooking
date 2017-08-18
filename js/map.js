@@ -11,23 +11,24 @@ var baseValuesOffer = {
   'maxY': 500,
   'minPrice': 1000,
   'maxPrice': 1000000,
-  'pinWidth': 54,
-  'pinHeight': 75
+  'pinWidth': 0,
+  'pinHeight': 0
+};
+
+var baseTypesOffer = {
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
 };
 
 var countOffers = 9;
-/*
+
 var resortItems = function (item) {
-  var allItems = item.length;
-  for (var i = allItems - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = item;
-    item = item[j];
-    item = temp;
-  }
-  return item;
+  return item.filter(function () {
+    return Math.random() * 1000 >= 500;
+  });
 };
- */
+
 var getRandomInt = function (min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 };
@@ -64,7 +65,7 @@ var createOffers = function (numOffers) {
         'guests': getRandomInt(1, 10),
         'checkin': getRandomItem(baseValuesOffer['checkin']),
         'checkout': getRandomItem(baseValuesOffer['checkout']),
-        'features': getRandomItem(baseValuesOffer['features']),
+        'features': resortItems(baseValuesOffer['features']),
         'description': '',
         'photos': []
       },
@@ -74,6 +75,7 @@ var createOffers = function (numOffers) {
       }
     };
   }
+  console.log(offersArray);
   return offersArray;
 };
 
