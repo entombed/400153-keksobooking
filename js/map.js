@@ -1,4 +1,5 @@
 'use strict';
+
 var baseValuesOffer = {
   'titles': ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'],
   'type': ['flat', 'house', 'bungalo'],
@@ -11,8 +12,9 @@ var baseValuesOffer = {
   'maxY': 500,
   'minPrice': 1000,
   'maxPrice': 1000000,
-  'pinWidth': 0,
-  'pinHeight': 0
+  'pinWidth': 56,
+  'pinHeight': 75,
+  'imgId': ['01', '02', '03', '04', '05', '06', '07', '08']
 };
 
 var baseTypesOffer = {
@@ -21,48 +23,97 @@ var baseTypesOffer = {
   'bungalo': 'Бунгало'
 };
 
-var countOffers = 9;
+var countOffers = 8;
 
-var resortItems = function (item) {
-  return item.filter(function () {
-    return Math.random() * 1000 >= 500;
-  });
+/**
+ * Выводит случайное кол-во элементов массива
+ *
+ * @param {any} items - принимает массив значений
+ * @returns массив с случайным кол-вом элементов
+ */
+var resortItems = function (items) {
+  items.counter = 0;
+  var tmpArray = [];
+  var lenght = getItemLength(items);
+  var currentLength = getRandomInt(1, lenght);
+
+  for (var i = 0; i < currentLength; i++) {
+    var elementPosition = getRandomInt(items.counter, items.length - 1);
+    var element = items[elementPosition];
+    items[elementPosition] = items.splice(items.counter, 1, items[elementPosition])[0];
+    items.counter = items.counter === items.length - 1 ? 0 : items.counter + 1;
+    tmpArray.push(element);
+  }
+  return tmpArray;
 };
 
+/**
+ * Случайное целое число в диапазоне min max
+ *
+ * @param {any} min - минимальное значение
+ * @param {any} max - максимальное значение
+ * @returns возвращает случайное число
+ */
 var getRandomInt = function (min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 };
 
-var getItemLength = function (item) {
-  return item.length;
+/**
+ * Вычисляет длинну элементов
+ *
+ * @param {any} items - принимает массив
+ * @returns возвращает длинну массива
+ */
+var getItemLength = function (items) {
+  return items.length;
 };
 
-var getRandomItem = function (array) {
-  var allItems = getItemLength(array);
+/**
+ * Случайные элемент массива
+ *
+ * @param {any} items - принимает массив
+ * @returns возвращает случайный элемент массива
+ */
+var getRandomItem = function (items) {
+  var allItems = getItemLength(items);
   var randomItem = getRandomInt(0, allItems - 1);
-  return array[randomItem];
+  return items[randomItem];
 };
 
-var getRandomPosition = function (minPos, maxPos) {
-  return getRandomInt(minPos, maxPos);
+/**
+ * Уникальный элемент масиива
+ *
+ * @param {any} items - принимает масиив
+ * @returns
+ */
+var getRandomUniqueItem = function (items) {
+  var randomItem = getRandomInt(0, items.length - 1);
+  return items.splice(randomItem, 1);
 };
 
+/**
+ * Создает массив объектов содержащих данные предложений по сдаче квартир
+ *
+ * @param {any} numOffers - кол-во предложений
+ * @returns массив содержащий объекты
+ */
 var createOffers = function (numOffers) {
   var offersArray = [];
   for (var i = 0; i < numOffers; i++) {
-    var x = getRandomPosition(baseValuesOffer['minX'] + baseValuesOffer['pinWidth'] / 2, baseValuesOffer['maxX'] + baseValuesOffer['pinWidth'] / 2);
-    var y = getRandomPosition(baseValuesOffer['minY'] + baseValuesOffer['pinHeight'], baseValuesOffer['maxY'] - baseValuesOffer['pinHeight']);
+    var x = getRandomInt(baseValuesOffer['minX'] + baseValuesOffer['pinWidth'] / 2, baseValuesOffer['maxX'] + baseValuesOffer['pinWidth'] / 2);
+    var y = getRandomInt(baseValuesOffer['minY'] + baseValuesOffer['pinHeight'], baseValuesOffer['maxY'] - baseValuesOffer['pinHeight']);
+    var tmpRooms = getRandomInt(1, 5);
     offersArray[i] = {
       'author': {
-        'avatar': 'img/avatars/user0' + (i + 1) + '.png'
+        'avatar': 'img/avatars/user' + getRandomUniqueItem(baseValuesOffer['imgId']) + '.png'
       },
       'offer': {
-        'title': getRandomItem(baseValuesOffer['titles']),
+        'title': getRandomUniqueItem(baseValuesOffer['titles']),
         'location': x + ' ' + y,
         'price': getRandomInt(baseValuesOffer['minPrice'], baseValuesOffer['maxPrice']),
         'type': getRandomItem(baseValuesOffer['type']),
-        'rooms': getRandomInt(1, 5),
-        'guests': getRandomInt(1, 10),
+        'rooms': tmpRooms,
+        'guests': getRandomInt(1, tmpRooms * 2),
         'checkin': getRandomItem(baseValuesOffer['checkin']),
         'checkout': getRandomItem(baseValuesOffer['checkout']),
         'features': resortItems(baseValuesOffer['features']),
@@ -75,8 +126,80 @@ var createOffers = function (numOffers) {
       }
     };
   }
-  console.log(offersArray);
   return offersArray;
 };
 
+/**
+ * создагние блока автарки
+ *
+ * @param {any} items
+ * @returns
+ */
+var createAvatarBlock = function (items) {
+  var pinBlock = document.createElement('div');
+  var imgBlock = document.createElement('img');
+
+  pinBlock.className = 'pin';
+  pinBlock.style.left = items['location']['posX'] + 'px';
+  pinBlock.style.top = items['location']['posY'] + 'px';
+  imgBlock.className = 'rounded';
+  imgBlock.width = 40;
+  imgBlock.height = 40;
+  imgBlock.src = items['author']['avatar'];
+  pinBlock.appendChild(imgBlock);
+  return pinBlock;
+};
+
+/**
+ * добавление аватарок в HTML
+ *
+ * @param {any} items массив
+ */
+var createAvatars = function (items) {
+  var avatarBlock = document.querySelector('.tokyo__pin-map');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < getItemLength(items); i++) {
+    fragment.appendChild(createAvatarBlock(items[i]));
+  }
+  avatarBlock.appendChild(fragment);
+};
+
+/**
+ * Вывод информационного блока (слева вверху) с описанием предложения и информацией
+ *
+ * @param {any} items - первый элемент массива
+ */
+var createDialog = function (items) {
+  var lodgeTemplate = document.querySelector('#lodge-template').content;
+  var lodgeItem = lodgeTemplate.cloneNode(true);
+  var lodgeTitle = lodgeItem.querySelector('.lodge__title');
+  var lodgeAddress = lodgeItem.querySelector('.lodge__address');
+  var lodgePrice = lodgeItem.querySelector('.lodge__price');
+  var lodgeType = lodgeItem.querySelector('.lodge__type');
+  var lodgeRooms = lodgeItem.querySelector('.lodge__rooms-and-guests');
+  var lodgeCheckin = lodgeItem.querySelector('.lodge__checkin-time');
+  var dialog = document.querySelector('.dialog');
+  var dialogPanel = document.querySelector('.dialog__panel');
+
+  lodgeTitle.textContent = items['offer']['title'];
+  lodgeAddress.textContent = items['offer']['address'];
+  lodgePrice.innerHTML = items['offer']['price'] + ' ' + '&#8381;/ночь';
+  lodgeType.textContent = baseTypesOffer[items['offer']['type']];
+  lodgeRooms.textContent = 'Для ' + items['offer']['guests'] + ' гостей в ' + items['offer']['rooms'] + ' комнатах';
+  lodgeCheckin.textContent = 'Заезд после ' + items['offer']['checkin'] + ', выезд до ' + items['offer']['checkout'];
+
+  for (var i = 0; i < getItemLength(items['offer']['features']); i++) {
+    var span = document.createElement('span');
+    span.className = 'feature__image feature__image--' + items['offer']['features'][i];
+    lodgeItem.querySelector('.lodge__features').appendChild(span);
+  }
+
+  lodgeItem.querySelector('.lodge__description').textContent = items['offer']['description'];
+  document.querySelector('.dialog__title img').src = items['author']['avatar'];
+
+  dialog.replaceChild(lodgeItem, dialogPanel);
+};
+
 var currentOffers = createOffers(countOffers);
+createAvatars(currentOffers);
+createDialog(currentOffers[0]);
