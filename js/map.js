@@ -26,11 +26,12 @@ var baseTypesOffer = {
 var countOffers = 8;
 
 /**
- * Выводит случайное кол-во элементов массива
+ * Выводит случайное кол-во элементов из массива
  *
- * @param {any} items - принимает массив значений
+ * @param {any} items массив значений
  * @returns массив с случайным кол-вом элементов
  */
+
 var resortItems = function (items) {
   items.counter = 0;
   var tmpArray = [];
@@ -50,10 +51,11 @@ var resortItems = function (items) {
 /**
  * Случайное целое число в диапазоне min max
  *
- * @param {any} min - минимальное значение
- * @param {any} max - максимальное значение
- * @returns возвращает случайное число
+ * @param {any} min минимальное значение
+ * @param {any} max максимальное значение
+ * @returns случайное число
  */
+
 var getRandomInt = function (min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 };
@@ -61,9 +63,10 @@ var getRandomInt = function (min, max) {
 /**
  * Вычисляет длинну элементов
  *
- * @param {any} items - принимает массив
- * @returns возвращает длинну массива
+ * @param {any} items принимает массив
+ * @returns длинну массива
  */
+
 var getItemLength = function (items) {
   return items.length;
 };
@@ -71,9 +74,10 @@ var getItemLength = function (items) {
 /**
  * Случайные элемент массива
  *
- * @param {any} items - принимает массив
- * @returns возвращает случайный элемент массива
+ * @param {any} items принимает массив
+ * @returns случайный элемент массива
  */
+
 var getRandomItem = function (items) {
   var allItems = getItemLength(items);
   var randomItem = getRandomInt(0, allItems - 1);
@@ -81,11 +85,12 @@ var getRandomItem = function (items) {
 };
 
 /**
- * Уникальный элемент масиива
- *
- * @param {any} items - принимает масиив
- * @returns
+ * Возвращает случайно элемент из массива
+ * Возвращаемый элемент удаляется из массива
+ * @param {any} items принимает массив
+ * @returns случайный элемент массива
  */
+
 var getRandomUniqueItem = function (items) {
   var randomItem = getRandomInt(0, items.length - 1);
   return items.splice(randomItem, 1);
@@ -94,9 +99,10 @@ var getRandomUniqueItem = function (items) {
 /**
  * Создает массив объектов содержащих данные предложений по сдаче квартир
  *
- * @param {any} numOffers - кол-во предложений
- * @returns массив содержащий объекты
+ * @param {any} numOffers кол-во предложений
+ * @returns массив содержащий объекты в которых содержится информация по предложениям
  */
+
 var createOffers = function (numOffers) {
   var offersArray = [];
   for (var i = 0; i < numOffers; i++) {
@@ -130,11 +136,12 @@ var createOffers = function (numOffers) {
 };
 
 /**
- * создагние блока автарки
+ * создание блока автарки
  *
- * @param {any} items
- * @returns
+ * @param {any} items массов объектов предложений
+ * @returns HTML блок для аватарки
  */
+
 var createAvatarBlock = function (items) {
   var pinBlock = document.createElement('div');
   var imgBlock = document.createElement('img');
@@ -153,8 +160,9 @@ var createAvatarBlock = function (items) {
 /**
  * добавление аватарок в HTML
  *
- * @param {any} items массив
+ * @param {any} items массов объектов предложений
  */
+
 var createAvatars = function (items) {
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var fragment = document.createDocumentFragment();
@@ -167,8 +175,9 @@ var createAvatars = function (items) {
 /**
  * Вывод информационного блока (слева вверху) с описанием предложения и информацией
  *
- * @param {any} items - первый элемент массива
+ * @param {any} items - первый объект из массива предложений
  */
+
 var createDialog = function (items) {
   var lodgeTemplate = document.querySelector('#lodge-template').content;
   var lodgeItem = lodgeTemplate.cloneNode(true);
