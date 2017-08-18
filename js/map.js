@@ -192,7 +192,7 @@ var createDialog = function (items) {
 
   lodgeTitle.textContent = items['offer']['title'];
   lodgeAddress.textContent = items['offer']['address'];
-  lodgePrice.innerHTML = items['offer']['price'] + ' ' + '&#8381;/ночь';
+  lodgePrice.innerHTML = items['offer']['price'] + ' &#8381;/ночь';
   lodgeType.textContent = baseTypesOffer[items['offer']['type']];
   lodgeRooms.textContent = 'Для ' + items['offer']['guests'] + ' гостей в ' + items['offer']['rooms'] + ' комнатах';
   lodgeCheckin.textContent = 'Заезд после ' + items['offer']['checkin'] + ', выезд до ' + items['offer']['checkout'];
