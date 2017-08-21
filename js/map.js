@@ -152,6 +152,11 @@ var createAvatarBlock = function (items, imgWidth, imgHeight) {
 
   pinBlock.className = 'pin';
   pinBlock.style.left = (items['location']['x'] - imgWidth / 2) + 'px';
+
+  /*
+  при вычислении по Y аватарки попадают в зону над горизонтом,
+  baseValuesOffer['minY'] = 100 маловато значение, если поставить 200 будет выглядеть лучше
+  */
   pinBlock.style.top = (items['location']['y'] - imgHeight) + 'px';
   imgBlock.className = 'rounded';
   imgBlock.width = 40;
