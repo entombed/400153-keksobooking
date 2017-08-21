@@ -152,7 +152,6 @@ var createAvatarBlock = function (items, imgWidth, imgHeight) {
 
   pinBlock.className = 'pin';
   pinBlock.style.left = (items['location']['x'] - imgWidth / 2) + 'px';
-
   /*
   при вычислении по Y аватарки попадают в зону над горизонтом,
   baseValuesOffer['minY'] = 100 маловато значение, если поставить 200 будет выглядеть лучше
@@ -215,7 +214,7 @@ var createDialog = function (items, template) {
   }
 
   lodgeItem.querySelector('.lodge__description').textContent = items['offer']['description'];
-  document.querySelector('.dialog__title img').src = items['author']['avatar'];
+  dialog.querySelector('.dialog__title img').src = items['author']['avatar'];
 
   dialog.replaceChild(lodgeItem, dialogPanel);
 };
