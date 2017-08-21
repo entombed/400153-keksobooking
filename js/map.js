@@ -29,8 +29,8 @@ var lodgeTemplate = document.querySelector('#lodge-template').content;
 /**
  * Выводит случайное кол-во элементов из массива
  *
- * @param {any} items массив значений
- * @returns массив с случайным кол-вом элементов
+ * @param {array} items массив значений
+ * @return массив с случайным кол-вом элементов
  */
 
 var resortItems = function (items) {
@@ -52,9 +52,9 @@ var resortItems = function (items) {
 /**
  * Случайное целое число в диапазоне min max
  *
- * @param {any} min минимальное значение
- * @param {any} max максимальное значение
- * @returns случайное число
+ * @param {int} min минимальное значение
+ * @param {int} max максимальное значение
+ * @return случайное число
  */
 
 var getRandomInt = function (min, max) {
@@ -64,8 +64,8 @@ var getRandomInt = function (min, max) {
 /**
  * Вычисляет длинну элементов
  *
- * @param {any} items принимает массив
- * @returns длинну массива
+ * @param {array} items принимает массив
+ * @return длинну массива
  */
 
 var getItemLength = function (items) {
@@ -75,8 +75,8 @@ var getItemLength = function (items) {
 /**
  * Случайные элемент массива
  *
- * @param {any} items принимает массив
- * @returns случайный элемент массива
+ * @param {array} items принимает массив
+ * @return случайный элемент массива
  */
 
 var getRandomItem = function (items) {
@@ -88,8 +88,8 @@ var getRandomItem = function (items) {
 /**
  * Возвращает случайно элемент из массива
  * Возвращаемый элемент удаляется из массива
- * @param {any} items принимает массив
- * @returns случайный элемент массива
+ * @param {array} items принимает массив
+ * @return случайный элемент массива
  */
 
 var getRandomUniqueItem = function (items) {
@@ -101,8 +101,8 @@ var getRandomUniqueItem = function (items) {
 /**
  * Создает массив объектов содержащих данные предложений по сдаче квартир
  *
- * @param {any} numOffers кол-во предложений
- * @returns массив содержащий объекты в которых содержится информация по предложениям
+ * @param {int} numOffers кол-во предложений
+ * @return массив содержащий объекты в которых содержится информация по предложениям
  */
 
 var createOffers = function (numOffers) {
@@ -140,10 +140,10 @@ var createOffers = function (numOffers) {
 /**
  * создание блока автарки с указанием стилей и позиции размещения на карте
  *
- * @param {any} items массов объектов предложений
- * @param {any} imgWidth ширина аватарки
- * @param {any} imgHeight высота аватарки
- * @returns HTML блок для аватарки
+ * @param {obj} items массов объектов предложений
+ * @param {int} imgWidth ширина аватарки
+ * @param {int} imgHeight высота аватарки
+ * @return HTML блок для аватарки
  */
 
 var createAvatarBlock = function (items, imgWidth, imgHeight) {
@@ -168,9 +168,9 @@ var createAvatarBlock = function (items, imgWidth, imgHeight) {
 /**
  * добавление аватарок в HTML
  *
- * @param {any} items items массов объектов предложений
- * @param {any} imgWidth ширина аватарки
- * @param {any} imgHeight высота аватарки
+ * @param {obj} items items массов объектов предложений
+ * @param {int} imgWidth ширина аватарки
+ * @param {int} imgHeight высота аватарки
  */
 
 var createAvatars = function (items, imgWidth, imgHeight) {
@@ -185,7 +185,7 @@ var createAvatars = function (items, imgWidth, imgHeight) {
 /**
  * Вывод информационного блока (слева вверху) с описанием предложения и информацией
  *
- * @param {any} items - первый объект из массива предложений
+ * @param {array} items - первый объект из массива предложений
  * @param {any} template - шаблон который используется для создания контента
  */
 
