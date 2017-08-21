@@ -24,6 +24,7 @@ var baseTypesOffer = {
 };
 
 var countOffers = 8;
+var lodgeTemplate = document.querySelector('#lodge-template').content;
 
 /**
  * Выводит случайное кол-во элементов из массива
@@ -107,8 +108,8 @@ var getRandomUniqueItem = function (items) {
 var createOffers = function (numOffers) {
   var offersArray = [];
   for (var i = 0; i < numOffers; i++) {
-    var x = getRandomInt(baseValuesOffer['minX'] + baseValuesOffer['pinWidth'] / 2, baseValuesOffer['maxX'] + baseValuesOffer['pinWidth'] / 2);
-    var y = getRandomInt(baseValuesOffer['minY'] + baseValuesOffer['pinHeight'], baseValuesOffer['maxY'] - baseValuesOffer['pinHeight']);
+    var posX = getRandomInt(baseValuesOffer['minX'], baseValuesOffer['maxX']);
+    var posY = getRandomInt(baseValuesOffer['minY'], baseValuesOffer['maxY']);
     var tmpRooms = getRandomInt(1, 5);
     offersArray[i] = {
       'author': {
@@ -116,7 +117,7 @@ var createOffers = function (numOffers) {
       },
       'offer': {
         'title': getRandomUniqueItem(baseValuesOffer['titles']),
-        'location': x + ' ' + y,
+        'location': posX + ', ' + posY,
         'price': getRandomInt(baseValuesOffer['minPrice'], baseValuesOffer['maxPrice']),
         'type': getRandomItem(baseValuesOffer['type']),
         'rooms': tmpRooms,
@@ -128,8 +129,8 @@ var createOffers = function (numOffers) {
         'photos': []
       },
       'location': {
-        'posX': x,
-        'posY': y
+        'x': posX,
+        'y': posY
       }
     };
   }
@@ -137,19 +138,21 @@ var createOffers = function (numOffers) {
 };
 
 /**
- * создание блока автарки
+ * создание блока автарки с указанием стилей и позиции размещения на карте
  *
  * @param {any} items массов объектов предложений
+ * @param {any} imgWidth ширина аватарки
+ * @param {any} imgHeight высота аватарки
  * @returns HTML блок для аватарки
  */
 
-var createAvatarBlock = function (items) {
+var createAvatarBlock = function (items, imgWidth, imgHeight) {
   var pinBlock = document.createElement('div');
   var imgBlock = document.createElement('img');
 
   pinBlock.className = 'pin';
-  pinBlock.style.left = items['location']['posX'] + 'px';
-  pinBlock.style.top = items['location']['posY'] + 'px';
+  pinBlock.style.left = (items['location']['x'] - imgWidth / 2) + 'px';
+  pinBlock.style.top = (items['location']['y'] + imgHeight) + 'px';
   imgBlock.className = 'rounded';
   imgBlock.width = 40;
   imgBlock.height = 40;
@@ -161,14 +164,16 @@ var createAvatarBlock = function (items) {
 /**
  * добавление аватарок в HTML
  *
- * @param {any} items массов объектов предложений
+ * @param {any} items items массов объектов предложений
+ * @param {any} imgWidth ширина аватарки
+ * @param {any} imgHeight высота аватарки
  */
 
-var createAvatars = function (items) {
+var createAvatars = function (items, imgWidth, imgHeight) {
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < getItemLength(items); i++) {
-    fragment.appendChild(createAvatarBlock(items[i]));
+    fragment.appendChild(createAvatarBlock(items[i], imgWidth, imgHeight));
   }
   avatarBlock.appendChild(fragment);
 };
@@ -177,11 +182,11 @@ var createAvatars = function (items) {
  * Вывод информационного блока (слева вверху) с описанием предложения и информацией
  *
  * @param {any} items - первый объект из массива предложений
+ * @param {any} template - шаблон который используется для создания контента
  */
 
-var createDialog = function (items) {
-  var lodgeTemplate = document.querySelector('#lodge-template').content;
-  var lodgeItem = lodgeTemplate.cloneNode(true);
+var createDialog = function (items, template) {
+  var lodgeItem = template.cloneNode(true);
   var lodgeTitle = lodgeItem.querySelector('.lodge__title');
   var lodgeAddress = lodgeItem.querySelector('.lodge__address');
   var lodgePrice = lodgeItem.querySelector('.lodge__price');
@@ -193,7 +198,7 @@ var createDialog = function (items) {
 
   lodgeTitle.textContent = items['offer']['title'];
   lodgeAddress.textContent = items['offer']['address'];
-  lodgePrice.innerHTML = items['offer']['price'] + ' &#8381;/ночь';
+  lodgePrice.innerHTML = items['offer']['price'] + '&#x20bd;/ночь';
   lodgeType.textContent = baseTypesOffer[items['offer']['type']];
   lodgeRooms.textContent = 'Для ' + items['offer']['guests'] + ' гостей в ' + items['offer']['rooms'] + ' комнатах';
   lodgeCheckin.textContent = 'Заезд после ' + items['offer']['checkin'] + ', выезд до ' + items['offer']['checkout'];
@@ -211,5 +216,5 @@ var createDialog = function (items) {
 };
 
 var currentOffers = createOffers(countOffers);
-createAvatars(currentOffers);
-createDialog(currentOffers[0]);
+createAvatars(currentOffers, baseValuesOffer['pinWidth'], baseValuesOffer['pinHeight']);
+createDialog(currentOffers[0], lodgeTemplate);
