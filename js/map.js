@@ -194,7 +194,7 @@ var createDialog = function (items, template) {
   var lodgeRooms = lodgeItem.querySelector('.lodge__rooms-and-guests');
   var lodgeCheckin = lodgeItem.querySelector('.lodge__checkin-time');
   var dialog = document.querySelector('.dialog');
-  var dialogPanel = document.querySelector('.dialog__panel');
+  var dialogPanel = dialog.querySelector('.dialog__panel');
 
   lodgeTitle.textContent = items['offer']['title'];
   lodgeAddress.textContent = items['offer']['address'];
