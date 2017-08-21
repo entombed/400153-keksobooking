@@ -152,7 +152,7 @@ var createAvatarBlock = function (items, imgWidth, imgHeight) {
 
   pinBlock.className = 'pin';
   pinBlock.style.left = (items['location']['x'] - imgWidth / 2) + 'px';
-  pinBlock.style.top = (items['location']['y'] + imgHeight) + 'px';
+  pinBlock.style.top = (items['location']['y'] - imgHeight) + 'px';
   imgBlock.className = 'rounded';
   imgBlock.width = 40;
   imgBlock.height = 40;
