@@ -27,23 +27,39 @@ var countOffers = 8;
 var lodgeTemplate = document.querySelector('#lodge-template').content;
 
 /**
- * Выводит случайное кол-во элементов из массива
+ * Создает копию массива
  *
  * @param {array} items массив значений
- * @return массив с случайным кол-вом элементов
+ * @return копию массива
+ */
+
+var generateCopyArray = function (items) {
+  var copyArray = [];
+  var length = items.length;
+  for (var i = 0; i < length; i++) {
+    copyArray.push(items[i]);
+  }
+  return copyArray;
+};
+
+/**
+ * Случайное кол-во элементов из массива
+ *
+ * @param {array} items
+ * @return массив элементов
  */
 
 var resortItems = function (items) {
   items.counter = 0;
   var tmpArray = [];
-  var lenght = getItemLength(items);
-  var currentLength = getRandomInt(1, lenght);
+  var length = items.length;
+  var currentLength = getRandomInt(1, length);
 
   for (var i = 0; i < currentLength; i++) {
-    var elementPosition = getRandomInt(items.counter, items.length - 1);
+    var elementPosition = getRandomInt(items.counter, length - 1);
     var element = items[elementPosition];
     items[elementPosition] = items.splice(items.counter, 1, items[elementPosition])[0];
-    items.counter = items.counter === items.length - 1 ? 0 : items.counter + 1;
+    items.counter = items.counter === length - 1 ? 0 : items.counter + 1;
     tmpArray.push(element);
   }
   return tmpArray;
@@ -62,17 +78,6 @@ var getRandomInt = function (min, max) {
 };
 
 /**
- * Вычисляет длинну элементов
- *
- * @param {array} items принимает массив
- * @return длинну массива
- */
-
-var getItemLength = function (items) {
-  return items.length;
-};
-
-/**
  * Случайные элемент массива
  *
  * @param {array} items принимает массив
@@ -80,8 +85,8 @@ var getItemLength = function (items) {
  */
 
 var getRandomItem = function (items) {
-  var allItems = getItemLength(items);
-  var randomItem = getRandomInt(0, allItems - 1);
+  var length = items.length;
+  var randomItem = getRandomInt(0, length - 1);
   return items[randomItem];
 };
 
@@ -93,8 +98,8 @@ var getRandomItem = function (items) {
  */
 
 var getRandomUniqueItem = function (items) {
-  var allItems = getItemLength(items);
-  var randomItem = getRandomInt(0, allItems - 1);
+  var length = items.length;
+  var randomItem = getRandomInt(0, length - 1);
   return items.splice(randomItem, 1);
 };
 
@@ -105,7 +110,7 @@ var getRandomUniqueItem = function (items) {
  * @return массив содержащий объекты в которых содержится информация по предложениям
  */
 
-var createOffers = function (numOffers) {
+var createOffers = function (numOffers, copyArrayImgId, copyArrayTitles) {
   var offersArray = [];
   for (var i = 0; i < numOffers; i++) {
     var posX = getRandomInt(baseValuesOffer['minX'], baseValuesOffer['maxX']);
@@ -113,10 +118,10 @@ var createOffers = function (numOffers) {
     var tmpRooms = getRandomInt(1, 5);
     offersArray[i] = {
       'author': {
-        'avatar': 'img/avatars/user' + getRandomUniqueItem(baseValuesOffer['imgId']) + '.png'
+        'avatar': 'img/avatars/user' + getRandomUniqueItem(copyArrayImgId) + '.png'
       },
       'offer': {
-        'title': getRandomUniqueItem(baseValuesOffer['titles']),
+        'title': getRandomUniqueItem(copyArrayTitles),
         'location': posX + ', ' + posY,
         'price': getRandomInt(baseValuesOffer['minPrice'], baseValuesOffer['maxPrice']),
         'type': getRandomItem(baseValuesOffer['type']),
@@ -176,7 +181,7 @@ var createAvatarBlock = function (items, imgWidth, imgHeight) {
 var createAvatars = function (items, imgWidth, imgHeight) {
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < getItemLength(items); i++) {
+  for (var i = 0; i < items.length; i++) {
     fragment.appendChild(createAvatarBlock(items[i], imgWidth, imgHeight));
   }
   avatarBlock.appendChild(fragment);
@@ -207,7 +212,7 @@ var createDialog = function (items, template) {
   lodgeRooms.textContent = 'Для ' + items['offer']['guests'] + ' гостей в ' + items['offer']['rooms'] + ' комнатах';
   lodgeCheckin.textContent = 'Заезд после ' + items['offer']['checkin'] + ', выезд до ' + items['offer']['checkout'];
 
-  for (var i = 0; i < getItemLength(items['offer']['features']); i++) {
+  for (var i = 0; i < items['offer']['features'].length; i++) {
     var span = document.createElement('span');
     span.className = 'feature__image feature__image--' + items['offer']['features'][i];
     lodgeItem.querySelector('.lodge__features').appendChild(span);
@@ -219,6 +224,9 @@ var createDialog = function (items, template) {
   dialog.replaceChild(lodgeItem, dialogPanel);
 };
 
-var currentOffers = createOffers(countOffers);
+var copyArrayTitles = generateCopyArray(baseValuesOffer['titles']);
+var copyArrayImgId = generateCopyArray(baseValuesOffer['imgId']);
+
+var currentOffers = createOffers(countOffers, copyArrayImgId, copyArrayTitles);
 createAvatars(currentOffers, baseValuesOffer['pinWidth'], baseValuesOffer['pinHeight']);
 createDialog(currentOffers[0], lodgeTemplate);
