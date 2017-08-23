@@ -110,8 +110,10 @@ var getRandomUniqueItem = function (items) {
  * @return массив содержащий объекты в которых содержится информация по предложениям
  */
 
-var createOffers = function (numOffers, copyArrayImgId, copyArrayTitles) {
+var createOffers = function (numOffers) {
   var offersArray = [];
+  var copyArrayTitles = generateCopyArray(baseValuesOffer['titles']);
+  var copyArrayImgId = generateCopyArray(baseValuesOffer['imgId']);
   for (var i = 0; i < numOffers; i++) {
     var posX = getRandomInt(baseValuesOffer['minX'], baseValuesOffer['maxX']);
     var posY = getRandomInt(baseValuesOffer['minY'], baseValuesOffer['maxY']);
@@ -224,9 +226,6 @@ var createDialog = function (items, template) {
   dialog.replaceChild(lodgeItem, dialogPanel);
 };
 
-var copyArrayTitles = generateCopyArray(baseValuesOffer['titles']);
-var copyArrayImgId = generateCopyArray(baseValuesOffer['imgId']);
-
-var currentOffers = createOffers(countOffers, copyArrayImgId, copyArrayTitles);
+var currentOffers = createOffers(countOffers);
 createAvatars(currentOffers, baseValuesOffer['pinWidth'], baseValuesOffer['pinHeight']);
 createDialog(currentOffers[0], lodgeTemplate);
