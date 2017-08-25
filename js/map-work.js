@@ -74,9 +74,7 @@ var resortItems = function (items) {
  */
 
 var getRandomInt = function (min, max) {
-  var rand = min - 0.5 + Math.random() * (max - min + 1);
-  rand = Math.round(rand);
-  return rand;
+  return Math.floor(min + Math.random() * (max - min + 1));
 };
 
 /**
@@ -93,23 +91,17 @@ var getRandomItem = function (items) {
 };
 
 /**
- * Возвращает уникальный элемент из массива
- *
+ * Возвращает случайно элемент из массива
+ * Возвращаемый элемент удаляется из массива
  * @param {array} items принимает массив
- * @return уникальный элемент из массива
+ * @return случайный элемент массива
  */
 
-function getUniqueItem(array, i) {
-  var currentIndex = i || 0;
-  var index = getRandomInt(currentIndex, array.length - 1);
-  var tmp = null;
-  var value = array[index];
-  tmp = array[currentIndex];
-  array[currentIndex] = array[index];
-  array[index] = tmp;
-  return value;
-}
-
+var getRandomUniqueItem = function (items) {
+  var length = items.length;
+  var randomItem = getRandomInt(0, length - 1);
+  return items.splice(randomItem, 1);
+};
 
 /**
  * Создает массив объектов содержащих данные предложений по сдаче квартир
@@ -120,16 +112,18 @@ function getUniqueItem(array, i) {
 
 var createOffers = function (numOffers) {
   var offersArray = [];
+  var copyArrayTitles = generateCopyArray(baseValuesOffer['titles']);
+  var copyArrayImgId = generateCopyArray(baseValuesOffer['imgId']);
   for (var i = 0; i < numOffers; i++) {
     var posX = getRandomInt(baseValuesOffer['minX'], baseValuesOffer['maxX']);
     var posY = getRandomInt(baseValuesOffer['minY'], baseValuesOffer['maxY']);
     var tmpRooms = getRandomInt(1, 5);
     offersArray[i] = {
       'author': {
-        'avatar': 'img/avatars/user' + getUniqueItem(baseValuesOffer['imgId'], i) + '.png'
+        'avatar': 'img/avatars/user' + getRandomUniqueItem(copyArrayImgId) + '.png'
       },
       'offer': {
-        'title': getUniqueItem(baseValuesOffer['titles'], i),
+        'title': getRandomUniqueItem(copyArrayTitles),
         'location': posX + ', ' + posY,
         'price': getRandomInt(baseValuesOffer['minPrice'], baseValuesOffer['maxPrice']),
         'type': getRandomItem(baseValuesOffer['type']),
@@ -202,17 +196,16 @@ var createAvatars = function (items, imgWidth, imgHeight) {
  * @param {any} template - шаблон который используется для создания контента
  */
 
-var lodgeItem = lodgeTemplate.cloneNode(true);
-var lodgeTitle = lodgeItem.querySelector('.lodge__title');
-var lodgeAddress = lodgeItem.querySelector('.lodge__address');
-var lodgePrice = lodgeItem.querySelector('.lodge__price');
-var lodgeType = lodgeItem.querySelector('.lodge__type');
-var lodgeRooms = lodgeItem.querySelector('.lodge__rooms-and-guests');
-var lodgeCheckin = lodgeItem.querySelector('.lodge__checkin-time');
-var dialog = document.querySelector('.dialog');
-var dialogPanel = dialog.querySelector('.dialog__panel');
-
-var createDialog = function (items) {
+var createDialog = function (items, template) {
+  var lodgeItem = template.cloneNode(true);
+  var lodgeTitle = lodgeItem.querySelector('.lodge__title');
+  var lodgeAddress = lodgeItem.querySelector('.lodge__address');
+  var lodgePrice = lodgeItem.querySelector('.lodge__price');
+  var lodgeType = lodgeItem.querySelector('.lodge__type');
+  var lodgeRooms = lodgeItem.querySelector('.lodge__rooms-and-guests');
+  var lodgeCheckin = lodgeItem.querySelector('.lodge__checkin-time');
+  var dialog = document.querySelector('.dialog');
+  var dialogPanel = dialog.querySelector('.dialog__panel');
 
   lodgeTitle.textContent = items['offer']['title'];
   lodgeAddress.textContent = items['offer']['address'];
@@ -235,62 +228,98 @@ var createDialog = function (items) {
 
 var currentOffers = createOffers(countOffers);
 createAvatars(currentOffers, baseValuesOffer['pinWidth'], baseValuesOffer['pinHeight']);
-createDialog(currentOffers[0]);
+/* createDialog(currentOffers[0], lodgeTemplate); */
 
-//+++++++++++++++++++++++++++++++++++++++++++
 //+++++++++++++++++++++++++++++++++++++++++++
 
 var keysCodes = {
   ESC: 27,
   ENTER: 13
 };
-var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-var pinsTokyoPinMap = tokyoPinMap.querySelectorAll('.pin:not(.pin__main)');
+
+var TokyoPinMap = document.querySelector('.tokyo__pin-map');
+var pins = TokyoPinMap.querySelectorAll('.pin:not(:first-child)');
 var offerDialog = document.querySelector('#offer-dialog');
-var offerDialogClose = offerDialog.querySelector('.dialog__close');
+var dialogClose = offerDialog.querySelector('.dialog__close');
+var dialogPanel = document.querySelector('.dialog__panel');
 
-var pinClickHendler = function (event) {
+function initPage() {
+  pins.setAttribute('tabindex', '0');
+}
+
+/**
+ * Функция, которая активирует маркер по левому клику
+ *
+ * @param {any} event
+ */
+var pinEventHandler = function (event) {
   if (event.keyCode === keysCodes['ENTER'] || event.type === 'click') {
-    var target = event.currentTarget;
-    removeCurrentActivePin();
-    addClassToCurrentPin(target);
-/*     for (var i = 0; i < pinsTokyoPinMap.length; i++) {
-      if (pinsTokyoPinMap[i] === target) {
-        var activePinNumber = i;
-      }
-    }
-    openDialog(activePinNumber); */
-    dialogOpenWindow();
+    activatePin(event);
   }
 };
 
-/* var openDialog = function (activePinNumber) {
-  createDialog(currentOffers[activePinNumber]);
-}; */
-
-var addClassToCurrentPin = function (target) {
+/**
+ * Функция, которая добавляет класс pin--active выделенному элементу
+ *
+ * @param {any} event
+ */
+var activatePin = function (event) {
+  var activePinNumber;
+  removeClass(pins, 'pin--active');
+  var target = event.currentTarget;
   target.classList.add('pin--active');
-};
-
-var removeCurrentActivePin = function () {
-  var currentActivePin = tokyoPinMap.querySelector('.pin--active');
-  if (currentActivePin) {
-    currentActivePin.classList.remove('pin--active');
+  for (var i = 0; i < pins.length; i++) {
+    if (pins[i] === target) {
+      activePinNumber = i;
+    }
   }
-};
-
-var dialogOpenWindow = function () {
+  openDialog(activePinNumber);
   offerDialog.classList.remove('hidden');
 };
 
-var dialogCloseClickHendler = function () {
-  offerDialog.classList.add('hidden');
-  removeCurrentActivePin();
+
+/**
+ * Функция, которая открывает окно с предложением
+ *
+ * @param {any} activePinNumber
+ */
+var openDialog = function (activePinNumber) {
+  dialogPanel.innerHTML = '';
+  dialogPanel.appendChild(createDialog(currentOffers[activePinNumber], lodgeTemplate));
 };
 
-for (var i = 0; i < pinsTokyoPinMap.length; i++) {
-  pinsTokyoPinMap[i].addEventListener('click', pinClickHendler);
+/**
+ * Функция, которая убирает класс
+ *
+ * @param {any} elements
+ * @param {any} className
+ */
+var removeClass = function (elements, className) {
+  elements.forEach(function (element) {
+    if (element.classList.contains(className)) {
+      element.classList.remove(className);
+    }
+  });
+};
+
+/**
+ * Функция, которая скрывает окно с предложением
+ *
+ * @param {any} event
+ */
+var deactivateDialogAndPin = function (event) {
+  if (event.keyCode === keysCodes['ESC'] || event.type === 'click') {
+    offerDialog.classList.add('hidden');
+    removeClass(pins, 'pin--active');
+  }
+};
+
+
+for (var i = 0; i < pins.length; i++) {
+  pins[i].addEventListener('click', pinEventHandler);
+  pins[i].addEventListener('keydown', pinEventHandler);
 }
 
-offerDialogClose.addEventListener('click', dialogCloseClickHendler);
+dialogClose.addEventListener('click', deactivateDialogAndPin);
+document.body.addEventListener('keydown', deactivateDialogAndPin);
 
