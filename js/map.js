@@ -33,15 +33,6 @@ var lodgeTemplate = document.querySelector('#lodge-template').content;
  * @return копию массива
  */
 
-var generateCopyArray = function (items) {
-  var copyArray = [];
-  var length = items.length;
-  for (var i = 0; i < length; i++) {
-    copyArray.push(items[i]);
-  }
-  return copyArray;
-};
-
 /**
  * Случайное кол-во элементов из массива
  *
@@ -159,9 +150,11 @@ var createOffers = function (numOffers) {
  * @return HTML блок для аватарки
  */
 
-var createAvatarBlock = function (items, imgWidth, imgHeight) {
+var createAvatarBlock = function (items, imgWidth, imgHeight, counter) {
   var pinBlock = document.createElement('div');
   var imgBlock = document.createElement('img');
+  imgBlock.dataset.countNumber = counter;
+  pinBlock.setAttribute('tabindex', '0');
 
   pinBlock.className = 'pin';
   pinBlock.style.left = (items['location']['x'] - imgWidth / 2) + 'px';
@@ -190,7 +183,7 @@ var createAvatars = function (items, imgWidth, imgHeight) {
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < items.length; i++) {
-    fragment.appendChild(createAvatarBlock(items[i], imgWidth, imgHeight));
+    fragment.appendChild(createAvatarBlock(items[i], imgWidth, imgHeight, i));
   }
   avatarBlock.appendChild(fragment);
 };
@@ -202,17 +195,18 @@ var createAvatars = function (items, imgWidth, imgHeight) {
  * @param {any} template - шаблон который используется для создания контента
  */
 
-var lodgeItem = lodgeTemplate.cloneNode(true);
-var lodgeTitle = lodgeItem.querySelector('.lodge__title');
-var lodgeAddress = lodgeItem.querySelector('.lodge__address');
-var lodgePrice = lodgeItem.querySelector('.lodge__price');
-var lodgeType = lodgeItem.querySelector('.lodge__type');
-var lodgeRooms = lodgeItem.querySelector('.lodge__rooms-and-guests');
-var lodgeCheckin = lodgeItem.querySelector('.lodge__checkin-time');
-var dialog = document.querySelector('.dialog');
-var dialogPanel = dialog.querySelector('.dialog__panel');
+
 
 var createDialog = function (items) {
+  var lodgeItem = lodgeTemplate.cloneNode(true);
+  var lodgeTitle = lodgeItem.querySelector('.lodge__title');
+  var lodgeAddress = lodgeItem.querySelector('.lodge__address');
+  var lodgePrice = lodgeItem.querySelector('.lodge__price');
+  var lodgeType = lodgeItem.querySelector('.lodge__type');
+  var lodgeRooms = lodgeItem.querySelector('.lodge__rooms-and-guests');
+  var lodgeCheckin = lodgeItem.querySelector('.lodge__checkin-time');
+  var dialog = document.querySelector('.dialog');
+  var dialogPanel = dialog.querySelector('.dialog__panel');
 
   lodgeTitle.textContent = items['offer']['title'];
   lodgeAddress.textContent = items['offer']['address'];
@@ -254,19 +248,9 @@ var pinClickHendler = function (event) {
     var target = event.currentTarget;
     removeCurrentActivePin();
     addClassToCurrentPin(target);
-/*     for (var i = 0; i < pinsTokyoPinMap.length; i++) {
-      if (pinsTokyoPinMap[i] === target) {
-        var activePinNumber = i;
-      }
-    }
-    openDialog(activePinNumber); */
-    dialogOpenWindow();
+    dialogOpenWindow(event, currentOffers);
   }
 };
-
-/* var openDialog = function (activePinNumber) {
-  createDialog(currentOffers[activePinNumber]);
-}; */
 
 var addClassToCurrentPin = function (target) {
   target.classList.add('pin--active');
@@ -279,18 +263,23 @@ var removeCurrentActivePin = function () {
   }
 };
 
-var dialogOpenWindow = function () {
+var dialogOpenWindow = function (event, array) {
+  var i = event.target.dataset.countNumber;
+  createDialog(array[i]);
   offerDialog.classList.remove('hidden');
 };
 
 var dialogCloseClickHendler = function () {
-  offerDialog.classList.add('hidden');
-  removeCurrentActivePin();
+  if (event.keyCode === keysCodes['ESC'] || event.type === 'click') {
+    offerDialog.classList.add('hidden');
+    removeCurrentActivePin();
+  }
 };
 
 for (var i = 0; i < pinsTokyoPinMap.length; i++) {
   pinsTokyoPinMap[i].addEventListener('click', pinClickHendler);
+  pinsTokyoPinMap[i].addEventListener('keydown', pinClickHendler);
 }
 
 offerDialogClose.addEventListener('click', dialogCloseClickHendler);
-
+tokyoPinMap.addEventListener('keydown', dialogCloseClickHendler)
