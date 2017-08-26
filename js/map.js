@@ -154,7 +154,7 @@ var createAvatarBlock = function (items, imgWidth, imgHeight, counter) {
   var pinBlock = document.createElement('div');
   var imgBlock = document.createElement('img');
   imgBlock.dataset.countNumber = counter;
-  pinBlock.setAttribute('tabindex', '0');
+  imgBlock.setAttribute('tabindex', '0');
 
   pinBlock.className = 'pin';
   pinBlock.style.left = (items['location']['x'] - imgWidth / 2) + 'px';
@@ -244,7 +244,7 @@ var offerDialog = document.querySelector('#offer-dialog');
 var offerDialogClose = offerDialog.querySelector('.dialog__close');
 
 var pinClickHendler = function (event) {
-  if (event.keyCode === keysCodes['ENTER'] || event.type === 'click') {
+  if ((event.keyCode === keysCodes['ENTER'] || event.type === 'click') && (event.target.tagName.toLowerCase() === 'img')) {
     var target = event.currentTarget;
     removeCurrentActivePin();
     addClassToCurrentPin(target);
@@ -276,10 +276,12 @@ var dialogCloseClickHendler = function () {
   }
 };
 
+
 for (var i = 0; i < pinsTokyoPinMap.length; i++) {
   pinsTokyoPinMap[i].addEventListener('click', pinClickHendler);
   pinsTokyoPinMap[i].addEventListener('keydown', pinClickHendler);
 }
 
+
 offerDialogClose.addEventListener('click', dialogCloseClickHendler);
-tokyoPinMap.addEventListener('keydown', dialogCloseClickHendler)
+window.addEventListener('keydown', dialogCloseClickHendler);
