@@ -337,7 +337,7 @@ document.addEventListener('keydown', function (event) {
   }
 });
 
-//++++++++++++++++++++++++++++++++++++++++++++++++
+// ++++++++++++++++++++++++++++++++++++++++++++++++
 // Переменные формы с объявлением
 var form = document.querySelector('.notice__form');
 var title = form.querySelector('#title');
