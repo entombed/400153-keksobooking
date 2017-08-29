@@ -361,8 +361,8 @@ var resetToDefaultForm = function () {
   price.type = 'number';
   price.min = 0;
   price.max = 1000000;
-  price.value = 0;
-  type.value = 'bungalo';
+  price.value = 1000;
+  type.value = 'flat';
   address.required = true;
   form.action = 'https://1510.dump.academy/keksobooking';
   roomNumber.value = 1;
@@ -451,9 +451,9 @@ var changeStyleBorderColor = function (fill, check) {
   }
 };
 
-var checkDataInFill = function (fill, value, min, max) {
+var checkDataInFill = function (fill, currentValue, min, max) {
   changeStyleBorderColor(fill, true);
-  if (value < min || value > max || value === 0) {
+  if (currentValue < min || currentValue > max || fill.value.length === 0) {
     changeStyleBorderColor(fill, false);
   }
 };
