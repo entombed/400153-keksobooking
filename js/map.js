@@ -453,7 +453,7 @@ var changeStyleBorderColor = function (fill, check) {
 
 var checkDataInFill = function (fill, value, min, max) {
   changeStyleBorderColor(fill, true);
-  if (value < min || value > max) {
+  if (value < min || value > max || value === 0) {
     changeStyleBorderColor(fill, false);
   }
 };
