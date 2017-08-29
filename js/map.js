@@ -349,6 +349,10 @@ var roomNumber = form.querySelector('#room_number');
 var capacity = form.querySelector('#capacity');
 var address = form.querySelector('#address');
 
+var statusPrice = null;
+var statusAddress = null;
+var statusTitle = null;
+
 // Сброс формы по умолчанию
 var resetToDefaultForm = function () {
   form.reset();
@@ -397,5 +401,110 @@ type.addEventListener('change', function () {
       price.value = 10000;
       price.min = 10000;
       break;
+  }
+});
+
+// Зависимость количеества мест от количества комнат
+roomNumber.addEventListener('change', function () {
+  for (var i = 0; i < capacity.options.length; i++) {
+    capacity.options[i].disabled = false;
+  }
+  switch (roomNumber.value) {
+    case '1':
+      capacity.value = '1';
+      for (i = 0; i < capacity.options.length; i++) {
+        if (i === 2) {
+          continue;
+        }
+        capacity.options[i].disabled = true;
+      }
+      break;
+    case '2':
+      capacity.value = '2';
+      for (i = 0; i < capacity.options.length; i++) {
+        if (i === 2 || i === 1) {
+          continue;
+        }
+        capacity.options[i].disabled = true;
+      }
+      break;
+    case '3':
+      capacity.value = '3';
+      for (i = 0; i < capacity.options.length; i++) {
+        if (i === 3) {
+          capacity.options[i].disabled = true;
+        }
+      }
+      break;
+    case '100':
+      capacity.value = '0';
+      for (i = 0; i < capacity.options.length; i++) {
+        if (i === 3) {
+          continue;
+        }
+        capacity.options[i].disabled = true;
+      }
+      break;
+  }
+});
+// Синхронизация значения поля «Тип жилья» с минимальной ценой объявления
+type.addEventListener('change', function () {
+  switch (type.value) {
+    case 'bungalo':
+      price.value = 0;
+      break;
+    case 'flat':
+      price.value = 1000;
+      price.min = 1000;
+      break;
+    case 'house':
+      price.value = 5000;
+      price.min = 5000;
+      break;
+    case 'palace':
+      price.value = 10000;
+      price.min = 10000;
+      break;
+  }
+});
+
+// проверяем что цена указана правильно
+price.addEventListener('blur', function () {
+  price.style.borderColor = '';
+  statusPrice = true;
+  if (Number(price.value) < Number(price.min) || Number(price.value) > Number(price.max)) {
+    price.style.borderColor = 'red';
+    statusPrice = false;
+  }
+  return;
+});
+
+// проверяем длинну поля адресс
+address.addEventListener('blur', function () {
+  address.style.borderColor = '';
+  statusAddress = true;
+  if (!address.value) {
+    address.style.borderColor = 'red';
+    statusAddress = false;
+  }
+});
+// проверяем длинну поля заголовок
+title.addEventListener('blur', function () {
+  title.style.borderColor = '';
+  statusTitle = true;
+  if (title.value.length < title.minLength || title.value.length > title.maxLength) {
+    title.style.borderColor = 'red';
+    statusTitle = false;
+  }
+  return;
+
+});
+
+// Проверка правильности заполнения полей формы перед отправкой
+form.addEventListener('submit', function (event) {
+  event.preventDefault();
+  if (statusPrice && statusAddress && statusTitle) {
+    form.submit();
+    resetToDefaultForm();
   }
 });
