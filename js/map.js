@@ -349,9 +349,7 @@ var roomNumber = form.querySelector('#room_number');
 var capacity = form.querySelector('#capacity');
 var address = form.querySelector('#address');
 
-var statusPrice = null;
-var statusAddress = null;
-var statusTitle = null;
+var statusFill = true;
 
 // Сброс формы по умолчанию
 var resetToDefaultForm = function () {
@@ -382,27 +380,6 @@ var correctCheckinCheckout = function (element1, element2) {
 
 correctCheckinCheckout(timeIn, timeOut);
 correctCheckinCheckout(timeOut, timeIn);
-
-// Синхронизация значения поля «Тип жилья»  с минимальной ценой объявления
-type.addEventListener('change', function () {
-  switch (type.value) {
-    case 'bungalo':
-      price.value = 0;
-      break;
-    case 'flat':
-      price.value = 1000;
-      price.min = 1000;
-      break;
-    case 'house':
-      price.value = 5000;
-      price.min = 5000;
-      break;
-    case 'palace':
-      price.value = 10000;
-      price.min = 10000;
-      break;
-  }
-});
 
 // Зависимость количеества мест от количества комнат
 roomNumber.addEventListener('change', function () {
@@ -455,55 +432,54 @@ type.addEventListener('change', function () {
       break;
     case 'flat':
       price.value = 1000;
-      price.min = 1000;
       break;
     case 'house':
       price.value = 5000;
-      price.min = 5000;
       break;
     case 'palace':
       price.value = 10000;
-      price.min = 10000;
       break;
   }
 });
 
+var changeStyleBorderColor = function (fill, check) {
+  fill.style.borderColor = '';
+  statusFill = true;
+  if (!check) {
+    fill.style.borderColor = 'red';
+    statusFill = false;
+  }
+};
+
+var checkDataInFill = function (fill, value, min, max) {
+  changeStyleBorderColor(fill, true);
+  if (value < min || value > max) {
+    changeStyleBorderColor(fill, false);
+  }
+};
+
 // проверяем что цена указана правильно
 price.addEventListener('blur', function () {
-  price.style.borderColor = '';
-  statusPrice = true;
-  if (Number(price.value) < Number(price.min) || Number(price.value) > Number(price.max)) {
-    price.style.borderColor = 'red';
-    statusPrice = false;
-  }
-  return;
+  checkDataInFill(price, Number(price.value), Number(price.min), Number(price.max));
 });
 
 // проверяем длинну поля адресс
 address.addEventListener('blur', function () {
-  address.style.borderColor = '';
-  statusAddress = true;
+  changeStyleBorderColor(address, true);
   if (!address.value) {
-    address.style.borderColor = 'red';
-    statusAddress = false;
+    changeStyleBorderColor(address, false);
   }
 });
+
 // проверяем длинну поля заголовок
 title.addEventListener('blur', function () {
-  title.style.borderColor = '';
-  statusTitle = true;
-  if (title.value.length < title.minLength || title.value.length > title.maxLength) {
-    title.style.borderColor = 'red';
-    statusTitle = false;
-  }
-  return;
-
+  checkDataInFill(title, title.value.length, title.minLength, title.maxLength);
 });
 
 // Проверка правильности заполнения полей формы перед отправкой
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-  if (statusPrice && statusAddress && statusTitle) {
+  if (statusFill) {
     form.submit();
     resetToDefaultForm();
   }
