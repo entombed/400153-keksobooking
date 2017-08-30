@@ -24,15 +24,15 @@ var baseValuesOffer = {
   'imgId': ['01', '02', '03', '04', '05', '06', '07', '08']
 };
 
+var baseSizePin = {
+  'pinWidth': 56,
+  'pinHeight': 75,
+};
+
 var baseTypesOffer = {
   'flat': 'Квартира',
   'house': 'Дом',
   'bungalo': 'Бунгало'
-};
-
-var baseSizePin = {
-  'pinWidth': 56,
-  'pinHeight': 75
 };
 
 var keysCodes = {
@@ -41,6 +41,7 @@ var keysCodes = {
 };
 
 var countOffers = 8;
+
 var lodgeTemplate = document.querySelector('#lodge-template').content;
 var tokyoPinMap = document.querySelector('.tokyo__pin-map');
 var offerDialog = document.querySelector('#offer-dialog');
@@ -352,7 +353,7 @@ var roomNumber = form.querySelector('#room_number');
 var capacity = form.querySelector('#capacity');
 var address = form.querySelector('#address');
 
-var statusFill = true;
+var statusField = true;
 
 // Сброс формы по умолчанию
 var resetToDefaultForm = function () {
@@ -374,17 +375,21 @@ var resetToDefaultForm = function () {
 
 resetToDefaultForm();
 
-// Автоматическая корректировка полей взаимозависимых полей формы
-var correctCheckinCheckout = function (element1, element2) {
+/*
+ * Автоматическая корректировка поля въезда или выезда
+ */
+var syncCheckinCheckout = function (element1, element2) {
   element1.addEventListener('change', function () {
     element2.value = element1.value;
   });
 };
 
-correctCheckinCheckout(timeIn, timeOut);
-correctCheckinCheckout(timeOut, timeIn);
+syncCheckinCheckout(timeIn, timeOut);
+syncCheckinCheckout(timeOut, timeIn);
 
-// Зависимость количеества мест от количества комнат
+/*
+ * Зависимость количеества мест от количества комнат (код жуть но работает)
+ */
 roomNumber.addEventListener('change', function () {
   for (var i = 0; i < capacity.options.length; i++) {
     capacity.options[i].disabled = false;
@@ -427,7 +432,11 @@ roomNumber.addEventListener('change', function () {
       break;
   }
 });
-// Синхронизация значения поля «Тип жилья» с минимальной ценой объявления
+
+/*
+ * Синхронизация значения поля «Тип жилья» с минимальной ценой объявления
+ */
+
 type.addEventListener('change', function () {
   switch (type.value) {
     case 'bungalo':
@@ -445,44 +454,85 @@ type.addEventListener('change', function () {
   }
 });
 
-var changeStyleBorderColor = function (fill, check) {
-  fill.style.borderColor = '';
-  statusFill = true;
+
+/**
+ * изменяем цвет рамки поля
+ *
+ * @param {obj} currentField поле формы
+ * @param {bool} check true или false
+ */
+
+var changeStyleBorderColor = function (currentField, check) {
+  currentField.style.borderColor = '';
+  statusField = true;
   if (!check) {
-    fill.style.borderColor = 'red';
-    statusFill = false;
+    currentField.style.borderColor = 'red';
+    statusField = false;
   }
 };
 
-var checkDataInFill = function (fill, currentValue, min, max) {
-  changeStyleBorderColor(fill, true);
-  if (currentValue < min || currentValue > max || fill.value.length === 0) {
-    changeStyleBorderColor(fill, false);
+/**
+ * проверка значения содержащегося в поле
+ *
+ * @param {any} currentField поле формы
+ * @param {any} currentValue значение содержащееся в поле
+ * @param {int} min минимальное значение
+ * @param {int} max максимальное значение
+ */
+
+var checkDataInField = function (currentField, currentValue, min, max) {
+  changeStyleBorderColor(currentField, true);
+  if (currentValue < min || currentValue > max || currentField.value.length === 0) {
+    changeStyleBorderColor(currentField, false);
   }
 };
 
-// проверяем что цена указана правильно
-price.addEventListener('blur', function () {
-  checkDataInFill(price, Number(price.value), Number(price.min), Number(price.max));
-});
+/**
+ * проверка поля адрес
+ *
+ * @param {any} currentField поле формы
+ */
 
-// проверяем длинну поля адресс
-address.addEventListener('blur', function () {
-  changeStyleBorderColor(address, true);
-  if (!address.value) {
-    changeStyleBorderColor(address, false);
+var checkDataInFieldAddress = function (currentField) {
+  changeStyleBorderColor(currentField, true);
+  if (!currentField.value) {
+    changeStyleBorderColor(currentField, false);
   }
-});
+};
 
-// проверяем длинну поля заголовок
-title.addEventListener('blur', function () {
-  checkDataInFill(title, title.value.length, title.minLength, title.maxLength);
-});
+/**
+ * выбор необходимой функции в зависимости от поля
+ *
+ * @param {any} event
+ */
 
-// Проверка правильности заполнения полей формы перед отправкой
+var checkBluerField = function (event) {
+  switch (event.target.name.toLowerCase()) {
+    case 'address':
+      checkDataInFieldAddress(address);
+      break;
+    case 'title':
+      checkDataInField(title, title.value.length, title.minLength, title.maxLength);
+      break;
+    case 'price':
+      checkDataInField(price, Number(price.value), Number(price.min), Number(price.max));
+      break;
+  }
+};
+
+/*
+ * слушатель события потери фокуса в поля формы
+ */
+
+form.addEventListener('blur', checkBluerField, true);
+
+/*
+ * Проверка правильности заполнения полей формы перед отправкой
+ */
+
 form.addEventListener('submit', function (event) {
   event.preventDefault();
-  if (statusFill) {
+  if (statusField) {
     form.submit();
     resetToDefaultForm();
   }
