@@ -313,6 +313,7 @@ function entterPressHandler(callback) {
     }
   };
 }
+
 /*
 скрывает окно с информацией
 */
@@ -378,6 +379,7 @@ resetToDefaultForm();
 /*
  * Автоматическая корректировка поля въезда или выезда
  */
+
 var syncCheckinCheckout = function (element1, element2) {
   element1.addEventListener('change', function () {
     element2.value = element1.value;
@@ -390,6 +392,7 @@ syncCheckinCheckout(timeOut, timeIn);
 /*
  * Зависимость количеества мест от количества комнат (код жуть но работает)
  */
+
 roomNumber.addEventListener('change', function () {
   for (var i = 0; i < capacity.options.length; i++) {
     capacity.options[i].disabled = false;
@@ -434,7 +437,7 @@ roomNumber.addEventListener('change', function () {
 });
 
 /*
- * Синхронизация значения поля «Тип жилья» с минимальной ценой объявления
+ * Синхронизация значения поля «Тип жилья» с ценой объявления
  */
 
 type.addEventListener('change', function () {
@@ -453,7 +456,6 @@ type.addEventListener('change', function () {
       break;
   }
 });
-
 
 /**
  * изменяем цвет рамки поля
@@ -475,7 +477,7 @@ var changeStyleBorderColor = function (currentField, check) {
  * проверка значения содержащегося в поле
  *
  * @param {any} currentField поле формы
- * @param {any} currentValue значение содержащееся в поле
+ * @param {int} currentValue значение содержащееся в поле
  * @param {int} min минимальное значение
  * @param {int} max максимальное значение
  */
