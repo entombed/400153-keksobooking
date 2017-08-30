@@ -341,7 +341,6 @@ document.addEventListener('keydown', function (event) {
     }
   }
 });
-<<<<<<< HEAD
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++
 // Переменные формы с объявлением
@@ -540,5 +539,3 @@ form.addEventListener('submit', function (event) {
     resetToDefaultForm();
   }
 });
-=======
->>>>>>> 6fe4328ebcfdcee1976195c09973089fc4369bb6
