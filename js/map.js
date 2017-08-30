@@ -21,8 +21,6 @@ var baseValuesOffer = {
   'maxY': 500,
   'minPrice': 1000,
   'maxPrice': 1000000,
-  'pinWidth': 56,
-  'pinHeight': 75,
   'imgId': ['01', '02', '03', '04', '05', '06', '07', '08']
 };
 
@@ -30,6 +28,11 @@ var baseTypesOffer = {
   'flat': 'Квартира',
   'house': 'Дом',
   'bungalo': 'Бунгало'
+};
+
+var baseSizePin = {
+  'pinWidth': 56,
+  'pinHeight': 75
 };
 
 var keysCodes = {
@@ -218,7 +221,7 @@ var createDialog = function (array) {
 };
 
 var currentOffers = createOffers(countOffers);
-createAvatars(currentOffers, baseValuesOffer['pinWidth'], baseValuesOffer['pinHeight']);
+createAvatars(currentOffers, baseSizePin['pinWidth'], baseSizePin['pinHeight']);
 
 /**
  * Производит поиск по родителя содержащий искомый css класс
