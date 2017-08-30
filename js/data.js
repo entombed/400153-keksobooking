@@ -58,5 +58,5 @@
     return offersArray;
   };
 
-  var currentOffers = createOffers(countOffers);
+  window.currentOffers = createOffers(countOffers);
 })();
