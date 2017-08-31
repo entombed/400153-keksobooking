@@ -133,7 +133,7 @@
 
   var checkDataInField = function (currentField, currentValue, min, max) {
     changeStyleBorderColor(currentField, true);
-    if (currentValue < min || currentValue > max || currentField.value.length === 0) {
+    if (Number(currentValue) < Number(min) || Number(currentValue) > Number(max) || Number(currentField.value.length) === 0) {
       changeStyleBorderColor(currentField, false);
     }
   };
@@ -166,7 +166,7 @@
         checkDataInField(title, title.value.length, title.minLength, title.maxLength);
         break;
       case 'price':
-        checkDataInField(price, Number(price.value), Number(price.min), Number(price.max));
+        checkDataInField(price, price.value, price.min, price.max);
         break;
     }
   };
