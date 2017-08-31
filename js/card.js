@@ -1,9 +1,9 @@
 'use strict';
 (function () {
-/* Переменная для работы с окном (dialog) подробной мнформации о предложении */
+  /* Переменная для работы с окном (dialog) подробной мнформации о предложении */
   var dialog = document.querySelector('.dialog');
 
-/* Переменная для шаблона окна (dialog) */
+  /* Переменная для шаблона окна (dialog) */
   var lodgeTemplate = document.querySelector('#lodge-template').content;
 
   var baseTypesOffer = {
@@ -12,8 +12,8 @@
     'bungalo': 'Бунгало'
   };
 
-/* Создание окна (dialog) с подробной информацией о предложении*/
-    var createDialog = function (array) {
+  /* Создание окна (dialog) с подробной информацией о предложении*/
+  var createDialog = function (array) {
     var lodgeItem = lodgeTemplate.cloneNode(true);
     var dialogPanel = dialog.querySelector('.dialog__panel');
     lodgeItem.querySelector('.lodge__title').textContent = array['offer']['title'];
@@ -35,6 +35,6 @@
     dialog.replaceChild(lodgeItem, dialogPanel);
   };
 
-/* экспортируем в глобальную зону видимости */
+  /* экспортируем в глобальную зону видимости */
   window.createDialog = createDialog;
 })();
