@@ -1,6 +1,11 @@
 'use strict';
 (function () {
+/* Переменная для работы с окном (dialog) подробной мнформации о предложении */
+  var dialog = document.querySelector('.dialog');
+
+/* Переменная для шаблона окна (dialog) */
   var lodgeTemplate = document.querySelector('#lodge-template').content;
+
   var baseTypesOffer = {
     'flat': 'Квартира',
     'house': 'Дом',
@@ -8,11 +13,9 @@
   };
 
 /* Создание окна (dialog) с подробной информацией о предложении*/
-  window.createDialog = function (array) {
+    var createDialog = function (array) {
     var lodgeItem = lodgeTemplate.cloneNode(true);
-    var dialog = document.querySelector('.dialog');
     var dialogPanel = dialog.querySelector('.dialog__panel');
-
     lodgeItem.querySelector('.lodge__title').textContent = array['offer']['title'];
     lodgeItem.querySelector('.lodge__address').textContent = array['offer']['address'];
     lodgeItem.querySelector('.lodge__price').innerHTML = array['offer']['price'] + '&#x20bd;/ночь';
@@ -31,4 +34,7 @@
 
     dialog.replaceChild(lodgeItem, dialogPanel);
   };
+
+/* экспортируем в глобальную зону видимости */
+  window.createDialog = createDialog;
 })();
