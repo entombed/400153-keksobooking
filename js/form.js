@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-// Переменные формы с объявлением
+/* Переменные формы с объявлением */
   var form = document.querySelector('.notice__form');
   var title = form.querySelector('#title');
   var type = form.querySelector('#type');
@@ -11,9 +11,10 @@
   var capacity = form.querySelector('#capacity');
   var address = form.querySelector('#address');
 
+/* переменная сохраняющая статус поля валидное или нет */
   var statusField = true;
 
-  // Сброс формы по умолчанию
+/* Сброс формы по умолчанию */
   var resetToDefaultForm = function () {
     form.reset();
     title.required = true;
@@ -33,10 +34,7 @@
 
   resetToDefaultForm();
 
-  /*
-  * Автоматическая корректировка поля въезда или выезда
-  */
-
+/* Автоматическая корректировка поля въезда или выезда */
   var syncCheckinCheckout = function (element1, element2) {
     element1.addEventListener('change', function () {
       element2.value = element1.value;
@@ -46,10 +44,7 @@
   syncCheckinCheckout(timeIn, timeOut);
   syncCheckinCheckout(timeOut, timeIn);
 
-  /*
-  * Зависимость количеества мест от количества комнат (код жуть но работает)
-  */
-
+/* Зависимость количеества мест от количества комнат (код жуть но работает) */
   roomNumber.addEventListener('change', function () {
     for (var i = 0; i < capacity.options.length; i++) {
       capacity.options[i].disabled = false;
@@ -93,10 +88,7 @@
     }
   });
 
-  /*
-  * Синхронизация значения поля «Тип жилья» с ценой объявления
-  */
-
+/* Синхронизация значения поля «Тип жилья» с ценой объявления */
   type.addEventListener('change', function () {
     switch (type.value) {
       case 'bungalo':
@@ -179,16 +171,10 @@
     }
   };
 
-  /*
-  * слушатель события потери фокуса в поля формы
-  */
-
+/* слушатель события потери фокуса в поля формы */
   form.addEventListener('blur', checkBluerField, true);
 
-  /*
-  * Проверка правильности заполнения полей формы перед отправкой
-  */
-
+/* Проверка правильности заполнения полей формы перед отправкой */
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (statusField) {

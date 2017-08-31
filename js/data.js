@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+/* базовые параметры для генерации информации о предложения */
   var baseValuesOffer = {
     'titles': [
       'Большая уютная квартира',
@@ -24,8 +25,10 @@
     'imgId': ['01', '02', '03', '04', '05', '06', '07', '08']
   };
 
+/* количество предложений сдачи в аренду жилья*/
   var countOffers = 8;
 
+/* объект содержащий предолжеия по сдачи жилья */
   var createOffers = function (numOffers) {
     var offersArray = [];
     for (var i = 0; i < numOffers; i++) {

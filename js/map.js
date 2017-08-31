@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+
+/* Ширина и высота автарки (pin) */
   var baseSizePin = {
     'pinWidth': 56,
     'pinHeight': 75,
@@ -47,22 +49,5 @@
     avatarBlock.appendChild(fragment);
   };
   createAvatars(window.currentOffers, baseSizePin['pinWidth'], baseSizePin['pinHeight']);
-
-  /**
- * Производит поиск по родителя содержащий искомый css класс
- * Поднимается вверж от child пока не встретит родтеля с классом selector
- *
- * @param {obj} child объект
- * @param {string} selector css class родителя
- * @returns возвращает найденный родитель с указанным css классом
- */
-
-  window.getParentBySelector = function (child, selector) {
-    var node = child;
-    while (node && !node.classList.contains(selector)) {
-      node = node.parentElement;
-    }
-    return node;
-  };
 
 })();

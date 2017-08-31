@@ -61,6 +61,23 @@
       array[currentIndex] = array[index];
       array[index] = tmp;
       return value;
+    },
+    
+    /**
+     * Производит поиск по родителя содержащий искомый css класс
+     * Поднимается вверж от child пока не встретит родтеля с классом selector
+     *
+     * @param {obj} child объект
+     * @param {string} selector css class родителя
+     * @returns возвращает найденный родитель с указанным css классом
+     */
+
+    getParentBySelector: function (child, selector) {
+      var node = child;
+      while (node && !node.classList.contains(selector)) {
+        node = node.parentElement;
+      }
+      return node;
     }
   };
 })();

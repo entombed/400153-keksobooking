@@ -7,6 +7,7 @@
     'bungalo': 'Бунгало'
   };
 
+/* Создание окна (dialog) с подробной информацией о предложении*/
   window.createDialog = function (array) {
     var lodgeItem = lodgeTemplate.cloneNode(true);
     var dialog = document.querySelector('.dialog');
