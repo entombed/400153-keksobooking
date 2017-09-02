@@ -52,38 +52,24 @@
     switch (roomNumber.value) {
       case '1':
         capacity.value = '1';
-        for (i = 0; i < capacity.options.length; i++) {
-          if (i === 2) {
-            continue;
-          }
-          capacity.options[i].disabled = true;
-        }
+        capacity.options[0].disabled = true;
+        capacity.options[1].disabled = true;
+        capacity.options[3].disabled = true;
         break;
       case '2':
         capacity.value = '2';
-        for (i = 0; i < capacity.options.length; i++) {
-          if (i === 2 || i === 1) {
-            continue;
-          }
-          capacity.options[i].disabled = true;
-        }
+        capacity.options[0].disabled = true;
+        capacity.options[3].disabled = true;
         break;
       case '3':
         capacity.value = '3';
-        for (i = 0; i < capacity.options.length; i++) {
-          if (i === 3) {
-            capacity.options[i].disabled = true;
-          }
-        }
+        capacity.options[3].disabled = true;
         break;
       case '100':
         capacity.value = '0';
-        for (i = 0; i < capacity.options.length; i++) {
-          if (i === 3) {
-            continue;
-          }
-          capacity.options[i].disabled = true;
-        }
+        capacity.options[0].disabled = true;
+        capacity.options[1].disabled = true;
+        capacity.options[2].disabled = true;
         break;
     }
   });

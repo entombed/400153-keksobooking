@@ -57,10 +57,11 @@
     }
   };
 
+  /* скрывает окно с информацией */
+  closeDialog();
+
   /* экпортируем в глобальную зону видимости */
   window.showAdDetails = showAdDetails;
-  window.oldPin = oldPin;
-  window.closeDialog = closeDialog;
   window.doHiddenAdDetails = doHiddenAdDetails;
   window.hiddenAdDetails = hiddenAdDetails;
 

@@ -8,7 +8,7 @@
   };
 
   /* переменная в которую записывается текущий элемент с классом pin--active */
-  var oldPin = null;
+  // var oldPin = null;
 
   /* переменная для работы с окном (dialog) подробной информации о предложении */
   var offerDialog = document.querySelector('#offer-dialog');
@@ -58,11 +58,11 @@
   };
 
   /* закрывает окно с информацией о предложении (слево вверху) */
-  var closeDialog = function () {
-    if (!offerDialog.classList.contains('hidden')) {
-      offerDialog.classList.add('hidden');
-    }
-  };
+  // var closeDialog = function () {
+  //   if (!offerDialog.classList.contains('hidden')) {
+  //     offerDialog.classList.add('hidden');
+  //   }
+  // };
 
   /**
    * показывает окно с информацией о предложении,
@@ -71,28 +71,28 @@
    *
    */
 
-  var showAdDetails = function () {
-    var pin = window.getParentBySelector(event.target, 'pin');
-    if (pin && !pin.classList.contains('pin__main')) {
-      pin.classList.add('pin--active');
-      if (oldPin && oldPin !== pin) {
-        oldPin.classList.remove('pin--active');
-      }
-      oldPin = pin;
-      window.createDialog(window.currentOffers[pin.dataset.countNumber]);
-      if (offerDialog.classList.contains('hidden')) {
-        offerDialog.classList.remove('hidden');
-      }
-    }
-  };
+  // var showAdDetails = function () {
+  //   var pin = window.getParentBySelector(event.target, 'pin');
+  //   if (pin && !pin.classList.contains('pin__main')) {
+  //     pin.classList.add('pin--active');
+  //     if (oldPin && oldPin !== pin) {
+  //       oldPin.classList.remove('pin--active');
+  //     }
+  //     oldPin = pin;
+  //     window.createDialog(window.currentOffers[pin.dataset.countNumber]);
+  //     if (offerDialog.classList.contains('hidden')) {
+  //       offerDialog.classList.remove('hidden');
+  //     }
+  //   }
+  // };
 
   /* скрывает окно с информацией о предолжении и убирает подсветку у активной автарки на карте */
-  var doHiddenAdDetails = function () {
-    offerDialog.classList.add('hidden');
-    if (oldPin) {
-      oldPin.classList.remove('pin--active');
-    }
-  };
+  // var doHiddenAdDetails = function () {
+  //   offerDialog.classList.add('hidden');
+  //   if (oldPin) {
+  //     oldPin.classList.remove('pin--active');
+  //   }
+  // };
 
   /**
    * закртие окна инфрмации о предложении
@@ -100,27 +100,24 @@
    * @param {any} event
    */
 
-  var hiddenAdDetails = function (event) {
-    if (window.getParentBySelector(event.target, 'dialog__close')) {
-      if (!offerDialog.classList.contains('hidden')) {
-        doHiddenAdDetails();
-      }
-    }
-  };
+  // var hiddenAdDetails = function (event) {
+  //   if (window.getParentBySelector(event.target, 'dialog__close')) {
+  //     if (!offerDialog.classList.contains('hidden')) {
+  //       doHiddenAdDetails();
+  //     }
+  //   }
+  // };
 
   /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
-  tokyoPinMap.addEventListener('click', window.clickHandler(showAdDetails));
-  tokyoPinMap.addEventListener('keydown', window.entterPressHandler(showAdDetails));
+  tokyoPinMap.addEventListener('click', window.clickHandler(window.showAdDetails));
+  tokyoPinMap.addEventListener('keydown', window.entterPressHandler(window.showAdDetails));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
-  offerDialog.addEventListener('click', window.clickHandler(hiddenAdDetails));
-  offerDialog.addEventListener('keydown', window.entterPressHandler(hiddenAdDetails));
+  offerDialog.addEventListener('click', window.clickHandler(window.hiddenAdDetails));
+  offerDialog.addEventListener('keydown', window.entterPressHandler(window.hiddenAdDetails));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. закрытие по нажатию esc */
-  document.addEventListener('keydown', window.escPressHandler(doHiddenAdDetails));
-
-  /* скрывает окно с информацией */
-  closeDialog();
+  document.addEventListener('keydown', window.escPressHandler(window.doHiddenAdDetails));
 
   /* экспортируем в глобальную область видимости */
   window.createAvatars = createAvatars;
