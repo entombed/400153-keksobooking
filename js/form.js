@@ -93,15 +93,19 @@
     switch (type.value) {
       case 'bungalo':
         price.value = 0;
+        price.min = price.value;
         break;
       case 'flat':
         price.value = 1000;
+        price.min = price.value;
         break;
       case 'house':
         price.value = 5000;
+        price.min = price.value;
         break;
       case 'palace':
         price.value = 10000;
+        price.min = price.value;
         break;
     }
   });
