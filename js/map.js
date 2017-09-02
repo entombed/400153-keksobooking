@@ -1,22 +1,29 @@
 'use strict';
 (function () {
-  /* переменная для работы с картой на которую размещаются аватарки (pin) */
-  var avatarBlock = document.querySelector('.tokyo__pin-map');
-  var MapArea = document.querySelector('.tokyo');
-  MapArea.style.overflow = 'hidden';
-  /* создание автарок (pin) */
-  window.createAvatars(window.currentOffers, avatarBlock);
-
   //  Перемещение текущего пина, и вывод его адреса в поле адрес
   /* переменная для работы с MainPin */
+  var avatarBlock = document.querySelector('.tokyo__pin-map');
   var pinMain = avatarBlock.querySelector('.pin__main');
 
   /* переменная для работы с полем адресс */
   var addressInput = document.getElementById('address');
 
   /* размеры картинки MainPin */
-  var pinMainWidth = pinMain.clientWidth;
-  var pinMainHeight = pinMain.clientHeight;
+  var pinMainWidth = pinMain.offsetWidth;
+  var pinMainHeight = pinMain.offsetHeight;
+
+  /* переменная для работы с картой на которую размещаются аватарки (pin) */
+  var MapArea = document.querySelector('.tokyo');
+
+  /* высота и ширина области перемещения pin-main*/
+  var MapAreaHeight = pinMain.offsetParent.offsetHeight;
+  var MapAreaWidth = pinMain.offsetParent.offsetWidth;
+
+  /* все что выходит за границы области перемещения скрывается */
+  MapArea.style.overflow = 'hidden';
+  /* создание автарок (pin) */
+  window.createAvatars(window.currentOffers, avatarBlock);
+
 
   /* функция вычисляет позицию на карте и корректирует если выходит за пределы */
   var setPinStylePosition = function (shiftPin, fixX, fixY, fixTo) {
@@ -45,7 +52,7 @@
     };
 
     /*  */
-    var onMouseMove = function (moveEvt) {
+    var MouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       /* сдвиг относитено стартовых кооррдинат */
       var shiftPin = {
@@ -60,13 +67,13 @@
       };
 
       /* вычисляем координаты и корректируем их в случае выхода за пределы карты */
-      if (pinMain.offsetLeft < -35) {
+      if (pinMain.offsetLeft < 0 - pinMainWidth / 2) {
         setPinStylePosition(shiftPin, 5, 0, 'plus');
-      } else if (pinMain.offsetLeft > 1160) {
+      } else if (pinMain.offsetLeft > MapAreaWidth - pinMainWidth / 2) {
         setPinStylePosition(shiftPin, 5, 0, 'minus');
       } else if (pinMain.offsetTop < 100) {
         setPinStylePosition(shiftPin, 0, 5, 'plus');
-      } else if (pinMain.offsetTop > 570) {
+      } else if (pinMain.offsetTop > MapAreaHeight - pinMainHeight - 46) {
         setPinStylePosition(shiftPin, 0, 5, 'minus');
       } else {
         setPinStylePosition(shiftPin, 0, 0);
@@ -74,21 +81,21 @@
     };
 
     /* выводим в строку адрес текущие координаты */
-    var setAddressValue = function () {
+    var printAddressValueHandler = function () {
       addressInput.value = 'x: ' + Math.floor(pinMain.offsetLeft + pinMainWidth / 2 + 0.5) + ', y: ' + (pinMain.offsetTop + pinMainHeight);
     };
 
     /* удаляем слущатели событий */
-    var onMouseUp = function (upEvt) {
+    var MouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('mousemove', setAddressValue);
+      document.removeEventListener('mousemove', MouseMoveHandler);
+      document.removeEventListener('mouseup', MouseUpHandler);
+      document.removeEventListener('mousemove', printAddressValueHandler);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mousemove', setAddressValue);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', MouseMoveHandler);
+    document.addEventListener('mousemove', printAddressValueHandler);
+    document.addEventListener('mouseup', MouseUpHandler);
   };
 
   pinMain.addEventListener('mousedown', movePinMainHandler);
