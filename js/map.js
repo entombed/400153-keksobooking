@@ -18,7 +18,8 @@
   /* высота и ширина области перемещения pin-main*/
   var MapAreaHeight = pinMain.offsetParent.offsetHeight;
   var MapAreaWidth = pinMain.offsetParent.offsetWidth;
-
+  var tokyoFilter = MapArea.querySelector('.tokyo__filters-container');
+  var tokyoFilterHeight = tokyoFilter.offsetHeight;
   /* все что выходит за границы области перемещения скрывается */
   MapArea.style.overflow = 'hidden';
   /* создание автарок (pin) */
@@ -73,7 +74,7 @@
         setPinStylePosition(shiftPin, 5, 0, 'minus');
       } else if (pinMain.offsetTop < 100) {
         setPinStylePosition(shiftPin, 0, 5, 'plus');
-      } else if (pinMain.offsetTop > MapAreaHeight - pinMainHeight - 46) {
+      } else if (pinMain.offsetTop > MapAreaHeight - pinMainHeight - tokyoFilterHeight) {
         setPinStylePosition(shiftPin, 0, 5, 'minus');
       } else {
         setPinStylePosition(shiftPin, 0, 0);
