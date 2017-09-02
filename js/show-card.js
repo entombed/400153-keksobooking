@@ -6,13 +6,6 @@
   /* переменная для работы с окном (dialog) подробной информации о предложении */
   var offerDialog = document.querySelector('#offer-dialog');
 
-  /* закрывает окно с информацией о предложении (слево вверху) */
-  var closeDialog = function () {
-    if (!offerDialog.classList.contains('hidden')) {
-      offerDialog.classList.add('hidden');
-    }
-  };
-
   /**
    * показывает окно с информацией о предложении,
    * добавлет класс pin--active к выбранной автарке
@@ -35,34 +28,8 @@
     }
   };
 
-  /* скрывает окно с информацией о предолжении и убирает подсветку у активной автарки на карте */
-  var doHiddenAdDetails = function () {
-    offerDialog.classList.add('hidden');
-    if (oldPin) {
-      oldPin.classList.remove('pin--active');
-    }
-  };
-
-  /**
-   * закртие окна инфрмации о предложении
-   *
-   * @param {any} event
-   */
-
-  var hiddenAdDetails = function (event) {
-    if (window.getParentBySelector(event.target, 'dialog__close')) {
-      if (!offerDialog.classList.contains('hidden')) {
-        doHiddenAdDetails();
-      }
-    }
-  };
-
-  /* скрывает окно с информацией */
-  closeDialog();
-
   /* экпортируем в глобальную зону видимости */
   window.showAdDetails = showAdDetails;
-  window.doHiddenAdDetails = doHiddenAdDetails;
-  window.hiddenAdDetails = hiddenAdDetails;
+  window.oldPin = oldPin;
 
 })();
