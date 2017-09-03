@@ -74,6 +74,40 @@
   window.synchronizeFields(roomNumber, capacity, roomsCounts, placesCounts, syncValues);
 
   /**
+   * Отключаем элементы в выпадающем списке "Количество мест"
+   * в зависимости от количества выбранных комнат в списке "Кол-во комнат"
+   */
+
+  var disableCapacityOption = function () {
+    for (var i = 0; i < capacity.options.length; i++) {
+      capacity.options[i].disabled = false;
+    }
+    switch (roomNumber.value) {
+      case '1':
+        capacity.value = '1';
+        capacity.options[0].disabled = true;
+        capacity.options[1].disabled = true;
+        capacity.options[3].disabled = true;
+        break;
+      case '2':
+        capacity.value = '2';
+        capacity.options[0].disabled = true;
+        capacity.options[3].disabled = true;
+        break;
+      case '3':
+        capacity.value = '3';
+        capacity.options[3].disabled = true;
+        break;
+      case '100':
+        capacity.value = '0';
+        capacity.options[0].disabled = true;
+        capacity.options[1].disabled = true;
+        capacity.options[2].disabled = true;
+        break;
+    }
+  };
+
+  /**
    * изменяем цвет рамки поля
    *
    * @param {obj} currentField поле формы
@@ -137,6 +171,9 @@
         break;
     }
   };
+
+  /* слушатель собятия изменения поля коичество комнат */
+  roomNumber.addEventListener('change', disableCapacityOption);
 
   /* слушатель события потери фокуса в поля формы */
   form.addEventListener('blur', checkBluerField, true);
