@@ -54,13 +54,6 @@
     template.appendChild(fragment);
   };
 
-  /* закрывает окно с информацией о предложении (слево вверху) */
-  var closeDialog = function () {
-    if (!offerDialog.classList.contains('hidden')) {
-      offerDialog.classList.add('hidden');
-    }
-  };
-
   /* скрывает окно с информацией о предолжении и убирает подсветку у активной автарки на карте */
   var doHiddenDialogDetails = function () {
     offerDialog.classList.add('hidden');
@@ -84,7 +77,7 @@
   };
 
   /* скрывает окно с информацией */
-  closeDialog();
+  doHiddenDialogDetails();
 
   /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
   tokyoPinMap.addEventListener('click', window.clickHandler(window.showCard));
