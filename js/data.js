@@ -12,7 +12,7 @@
       'Уютное бунгало далеко от моря',
       'Неуютное бунгало по колено в воде'
     ],
-    'type': ['flat', 'house', 'bungalo'],
+    'type': ['flat', 'house', 'bungalo', 'palace'],
     'checkin': ['12:00', '13:00', '14:00'],
     'checkout': ['12:00', '13:00', '14:00'],
     'features': ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],

@@ -20,13 +20,22 @@
   var MapAreaWidth = pinMain.offsetParent.offsetWidth;
   var tokyoFilter = MapArea.querySelector('.tokyo__filters-container');
   var tokyoFilterHeight = tokyoFilter.offsetHeight;
+
   /* все что выходит за границы области перемещения скрывается */
   MapArea.style.overflow = 'hidden';
+
   /* создание автарок (pin) */
   window.createAvatars(window.currentOffers, avatarBlock);
 
+  /**
+   * функция вычисляет позицию на карте и корректирует если выходит за пределы
+   *
+   * @param {any} shiftPin сдвиг относительно стартовых координат
+   * @param {int} fixX сдвиг координат по оси X если pin выходит за границы
+   * @param {int} fixY сдвиг координат по оси X если pin выходит за границы
+   * @param {string} fixTo указывает какое действие выполнять для координат
+   */
 
-  /* функция вычисляет позицию на карте и корректирует если выходит за пределы */
   var setPinStylePosition = function (shiftPin, fixX, fixY, fixTo) {
     if (fixTo === 'plus') {
       pinMain.style.top = (pinMain.offsetTop - shiftPin.y + fixY) + 'px';

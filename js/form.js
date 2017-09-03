@@ -29,72 +29,49 @@
     address.required = true;
     form.action = 'https://1510.dump.academy/keksobooking';
     roomNumber.value = 1;
-    capacity.value = 1;
   };
 
+  /* Сбрасываем значение полей формы */
   resetToDefaultForm();
 
-  /* Автоматическая корректировка поля въезда или выезда */
-  var syncCheckinCheckout = function (element1, element2) {
-    element1.addEventListener('change', function () {
-      element2.value = element1.value;
-    });
+  /* масиивы данных для синхронизации полей */
+  var regTime = ['12:00', '13:00', '14:00'];
+  var typeHouse = ['flat', 'house', 'bungalo', 'palace'];
+  var priceHouse = [1000, 5000, 0, 10000];
+  var roomsCount = ['1', '2', '3', '100'];
+  var placesCount = [1, 2, 3, 0];
+
+  /**
+   * принимает значение из масиива и задает:
+   * значение переданному полю
+   *
+   * @param {any} field поле формы
+   * @param {any} data значение из массива
+   */
+
+  var syncValues = function (field, data) {
+    field.value = data;
   };
 
-  syncCheckinCheckout(timeIn, timeOut);
-  syncCheckinCheckout(timeOut, timeIn);
+  /**
+   * принимает значение из масиива и задает:
+   *  - минимальное значение переданного поля
+   *  - значение в переданном поле
+   *
+   * @param {any} field поле формы
+   * @param {any} data значение из массива
+   */
 
-  /* Зависимость количеества мест от количества комнат (код жуть но работает) */
-  roomNumber.addEventListener('change', function () {
-    for (var i = 0; i < capacity.options.length; i++) {
-      capacity.options[i].disabled = false;
-    }
-    switch (roomNumber.value) {
-      case '1':
-        capacity.value = '1';
-        capacity.options[0].disabled = true;
-        capacity.options[1].disabled = true;
-        capacity.options[3].disabled = true;
-        break;
-      case '2':
-        capacity.value = '2';
-        capacity.options[0].disabled = true;
-        capacity.options[3].disabled = true;
-        break;
-      case '3':
-        capacity.value = '3';
-        capacity.options[3].disabled = true;
-        break;
-      case '100':
-        capacity.value = '0';
-        capacity.options[0].disabled = true;
-        capacity.options[1].disabled = true;
-        capacity.options[2].disabled = true;
-        break;
-    }
-  });
+  var syncValueWithMin = function (field, data) {
+    field.min = data;
+    field.value = data;
+  };
 
-  /* Синхронизация значения поля «Тип жилья» с ценой объявления */
-  type.addEventListener('change', function () {
-    switch (type.value) {
-      case 'bungalo':
-        price.value = 0;
-        price.min = price.value;
-        break;
-      case 'flat':
-        price.value = 1000;
-        price.min = price.value;
-        break;
-      case 'house':
-        price.value = 5000;
-        price.min = price.value;
-        break;
-      case 'palace':
-        price.value = 10000;
-        price.min = price.value;
-        break;
-    }
-  });
+  /* синхронизируем поля */
+  window.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
+  window.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
+  window.synchronizeFields(type, price, typeHouse, priceHouse, syncValueWithMin);
+  window.synchronizeFields(roomNumber, capacity, roomsCount, placesCount, syncValues);
 
   /**
    * изменяем цвет рамки поля

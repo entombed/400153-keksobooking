@@ -29,7 +29,7 @@
   };
 
   /* экпортируем в глобальную зону видимости */
-  window.showAdDetails = showAdDetails;
+  window.showCard = showAdDetails;
   window.oldPin = oldPin;
 
 })();
