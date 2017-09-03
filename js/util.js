@@ -80,7 +80,6 @@
     return node;
   };
 
-
   var keysCodes = {
     ESC: 27,
     ENTER: 13

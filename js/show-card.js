@@ -13,7 +13,7 @@
    *
    */
 
-  var showAdDetails = function () {
+  var showDialogDetails = function () {
     var pin = window.getParentBySelector(event.target, 'pin');
     if (pin && !pin.classList.contains('pin__main')) {
       pin.classList.add('pin--active');
@@ -29,7 +29,7 @@
   };
 
   /* экпортируем в глобальную зону видимости */
-  window.showCard = showAdDetails;
+  window.showCard = showDialogDetails;
   window.oldPin = oldPin;
 
 })();

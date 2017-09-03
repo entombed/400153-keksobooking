@@ -36,10 +36,10 @@
 
   /* масиивы данных для синхронизации полей */
   var regTime = ['12:00', '13:00', '14:00'];
-  var typeHouse = ['flat', 'house', 'bungalo', 'palace'];
-  var priceHouse = [1000, 5000, 0, 10000];
-  var roomsCount = ['1', '2', '3', '100'];
-  var placesCount = [1, 2, 3, 0];
+  var typesHouses = ['flat', 'house', 'bungalo', 'palace'];
+  var pricesHouses = [1000, 5000, 0, 10000];
+  var roomsCounts = ['1', '2', '3', '100'];
+  var placesCounts = [1, 2, 3, 0];
 
   /**
    * принимает значение из масиива и задает:
@@ -70,8 +70,8 @@
   /* синхронизируем поля */
   window.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
   window.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
-  window.synchronizeFields(type, price, typeHouse, priceHouse, syncValueWithMin);
-  window.synchronizeFields(roomNumber, capacity, roomsCount, placesCount, syncValues);
+  window.synchronizeFields(type, price, typesHouses, pricesHouses, syncValueWithMin);
+  window.synchronizeFields(roomNumber, capacity, roomsCounts, placesCounts, syncValues);
 
   /**
    * изменяем цвет рамки поля

@@ -62,7 +62,7 @@
   };
 
   /* скрывает окно с информацией о предолжении и убирает подсветку у активной автарки на карте */
-  var doHiddenAdDetails = function () {
+  var doHiddenDialogDetails = function () {
     offerDialog.classList.add('hidden');
     if (window.oldPin) {
       window.oldPin.classList.remove('pin--active');
@@ -75,10 +75,10 @@
    * @param {any} event
    */
 
-  var hiddenAdDetails = function (event) {
+  var hiddenDialogDetails = function (event) {
     if (window.getParentBySelector(event.target, 'dialog__close')) {
       if (!offerDialog.classList.contains('hidden')) {
-        doHiddenAdDetails();
+        doHiddenDialogDetails();
       }
     }
   };
@@ -91,11 +91,11 @@
   tokyoPinMap.addEventListener('keydown', window.entterPressHandler(window.showCard));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
-  offerDialog.addEventListener('click', window.clickHandler(hiddenAdDetails));
-  offerDialog.addEventListener('keydown', window.entterPressHandler(hiddenAdDetails));
+  offerDialog.addEventListener('click', window.clickHandler(hiddenDialogDetails));
+  offerDialog.addEventListener('keydown', window.entterPressHandler(hiddenDialogDetails));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. закрытие по нажатию esc */
-  document.addEventListener('keydown', window.escPressHandler(doHiddenAdDetails));
+  document.addEventListener('keydown', window.escPressHandler(doHiddenDialogDetails));
 
   /* экспортируем в глобальную область видимости */
   window.createAvatars = createAvatars;
