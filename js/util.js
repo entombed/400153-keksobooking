@@ -59,6 +59,7 @@
    *
    * @param {string} errorMessage
    */
+
   var sendRequestHandler = function (errorMessage) {
     var msgBlock = document.createElement('div');
     msgBlock.classList.add('errorMsgBlock');
@@ -75,6 +76,7 @@
     msgBlock.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', msgBlock);
   };
+
   /* экпортируем в глобальную зону видимости */
   window.util = {
     getParentBySelector: getParentBySelector,
