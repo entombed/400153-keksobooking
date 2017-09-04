@@ -24,8 +24,16 @@
   /* все что выходит за границы области перемещения скрывается */
   MapArea.style.overflow = 'hidden';
 
-  /* создание автарок (pin) */
-  window.createAvatars(window.currentOffers, avatarBlock);
+  // ++++++++++++++++++++++++++++++++++++++++++++
+
+  var getData = function (data) {
+    window.currentOffers = data;
+    /* создание автарок (pin) */
+    window.createAvatars(window.currentOffers, avatarBlock);
+  };
+
+  /* загружаем данные с севрера */
+  window.load(getData, window.sendRequestHandler);
 
   var movePinMainHandler = function (event) {
     event.preventDefault();

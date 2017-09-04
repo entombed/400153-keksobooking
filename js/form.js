@@ -182,8 +182,9 @@
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (statusField) {
-      form.submit();
-      resetToDefaultForm();
+      // form.submit();
+      // resetToDefaultForm();
+      window.save(resetToDefaultForm, window.sendRequestHandler, new FormData(form));
     }
   });
 })();
