@@ -12,7 +12,7 @@
       'Уютное бунгало далеко от моря',
       'Неуютное бунгало по колено в воде'
     ],
-    'type': ['flat', 'house', 'bungalo'],
+    'types': ['flat', 'house', 'bungalo', 'palace'],
     'checkin': ['12:00', '13:00', '14:00'],
     'checkout': ['12:00', '13:00', '14:00'],
     'features': ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
@@ -43,7 +43,7 @@
           'title': window.getUniqueItem(baseValuesOffer['titles'], i),
           'location': posX + ', ' + posY,
           'price': window.getRandomInt(baseValuesOffer['minPrice'], baseValuesOffer['maxPrice']),
-          'type': window.getRandomItem(baseValuesOffer['type']),
+          'type': window.getRandomItem(baseValuesOffer['types']),
           'rooms': tmpRooms,
           'guests': window.getRandomInt(1, tmpRooms * 2),
           'checkin': window.getRandomItem(baseValuesOffer['checkin']),
