@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var URL = 'https://1510.dump.academy/keksobooking1';
+  var URL = 'https://1510.dump.academy/keksobooking';
   var noticeForm = document.querySelector('.notice__form');
 
   var sendRequestHandler = function (errorMessage) {
@@ -46,7 +46,7 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Превышено время соединения. Запрос не выполнился за ' + xhr.timeout + 'мс');
+      onError('Превышено время соединения. Запрос не выполнился за ' + xhr.timeout + ' мс');
     });
 
     xhr.timeout = 4000;
