@@ -54,11 +54,33 @@
     };
   };
 
+  /**
+   * сообщение при отпраке запроса на сервер
+   *
+   * @param {string} errorMessage
+   */
+  var sendRequestHandler = function (errorMessage) {
+    var msgBlock = document.createElement('div');
+    msgBlock.classList.add('errorMsgBlock');
+    msgBlock.style.padding = '10px';
+    msgBlock.style.textAlign = 'center';
+    msgBlock.style.backgroundColor = 'red';
+    msgBlock.style.position = 'fixed';
+    msgBlock.style.transform = 'translate(-50%, -50%)';
+    msgBlock.style.left = '50%';
+    msgBlock.style.top = '50%';
+    msgBlock.style.fontSize = '25px';
+    msgBlock.style.color = 'white';
+    msgBlock.style.zIndex = '10';
+    msgBlock.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', msgBlock);
+  };
   /* экпортируем в глобальную зону видимости */
   window.util = {
     getParentBySelector: getParentBySelector,
     escPressHandler: escPressHandler,
     entterPressHandler: entterPressHandler,
-    clickHandler: clickHandler
+    clickHandler: clickHandler,
+    sendRequestHandler: sendRequestHandler
   };
 })();

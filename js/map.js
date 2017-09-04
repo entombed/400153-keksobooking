@@ -31,7 +31,7 @@
   };
 
   /* загружаем данные с севрера */
-  window.backend.load(getData, window.backend.sendRequestHandler);
+  window.backend.load(getData, window.util.sendRequestHandler);
 
   var movePinMainHandler = function (event) {
     event.preventDefault();
@@ -87,7 +87,5 @@
   };
 
   pinMain.addEventListener('mousedown', movePinMainHandler);
-  // window.map = {
-  //   currentOffers: currentOffers
-  // };
+
 })();
