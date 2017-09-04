@@ -1,13 +1,13 @@
 'use strict';
 
 (function () {
-  var URL = 'https://1510.dump.academy/keksobooking';
+  var URL = 'https://1510.dump.academy/keksobooking1';
   var noticeForm = document.querySelector('.notice__form');
 
   var sendRequestHandler = function (errorMessage) {
     var msgBlock = document.createElement('div');
     msgBlock.classList.add('errorMsgForm');
-    msgBlock.style.margin = 'auto';
+    msgBlock.style.margin = '10px 0px';
     msgBlock.style.padding = '10px';
     msgBlock.style.textAlign = 'center';
     msgBlock.style.backgroundColor = 'red';
@@ -17,7 +17,7 @@
     msgBlock.style.fontSize = '25px';
     msgBlock.style.color = 'white';
     msgBlock.textContent = errorMessage;
-    noticeForm.insertAdjacentElement('beforeend', msgBlock);
+    noticeForm.insertAdjacentElement('beforebegin', msgBlock);
   };
 
   var sendRequest = function (method, url, onLoad, onError, data) {
@@ -30,13 +30,13 @@
           onLoad(xhr.response);
           break;
         case 404:
-          onError(xhr.status + 'Запрошенный документ отсутствует на сервере.');
+          onError('Запрошенный документ отсутствует на сервере. Код ошибки ' + xhr.status );
           break;
         case 500:
-          onError(xhr.status + 'Внутренняя ошибка сервера.');
+          onError('Внутренняя ошибка сервера. Код ошибки ' + xhr.status);
           break;
         default:
-          onError('Хьюстон у нас проблема, что то пошло не так. Код ошибки ' + xhr.status + xhr.statusText);
+          onError('Хьюстон у нас проблема, что то пошло не так. Код ошибки ' + xhr.status + ' ' + xhr.statusText);
           break;
       }
     });
