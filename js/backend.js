@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var URL = 'https://1510.dump.academy/keksobooking2';
+  var URL = 'https://1510.dump.academy/keksobooking';
   var noticeForm = document.querySelector('.notice__form');
 
   var sendRequestHandler = function (errorMessage) {
