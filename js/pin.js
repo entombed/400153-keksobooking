@@ -13,8 +13,6 @@
   /* переменная для работы с картой на которой размещаются аватарки (pin) */
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
 
-  // var avatarBlock = document.querySelector('.tokyo__pin-map');
-
   /**
    * создание блока автарки с указанием стилей и позиции размещения на карте
    *
@@ -69,7 +67,7 @@
    */
 
   var hiddenDialogDetails = function (event) {
-    if (window.getParentBySelector(event.target, 'dialog__close')) {
+    if (window.util.getParentBySelector(event.target, 'dialog__close')) {
       if (!offerDialog.classList.contains('hidden')) {
         doHiddenDialogDetails();
       }
@@ -80,16 +78,18 @@
   doHiddenDialogDetails();
 
   /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
-  tokyoPinMap.addEventListener('click', window.clickHandler(window.showCard));
-  tokyoPinMap.addEventListener('keydown', window.entterPressHandler(window.showCard));
+  tokyoPinMap.addEventListener('click', window.util.clickHandler(window.showCard.showCard));
+  tokyoPinMap.addEventListener('keydown', window.util.entterPressHandler(window.showCard.showCard));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
-  offerDialog.addEventListener('click', window.clickHandler(hiddenDialogDetails));
-  offerDialog.addEventListener('keydown', window.entterPressHandler(hiddenDialogDetails));
+  offerDialog.addEventListener('click', window.util.clickHandler(hiddenDialogDetails));
+  offerDialog.addEventListener('keydown', window.util.entterPressHandler(hiddenDialogDetails));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. закрытие по нажатию esc */
-  document.addEventListener('keydown', window.escPressHandler(doHiddenDialogDetails));
+  document.addEventListener('keydown', window.util.escPressHandler(doHiddenDialogDetails));
 
   /* экспортируем в глобальную область видимости */
-  window.createAvatars = createAvatars;
+  window.pin = {
+    createAvatars: createAvatars
+  };
 })();

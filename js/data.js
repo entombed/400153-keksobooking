@@ -64,5 +64,7 @@
   var currentOffers = createOffers(countOffers);
 
   /* экспортируем в глобальную область видимости */
-  window.currentOffers = currentOffers;
+  window.data = {
+    currentOffers: currentOffers
+  };
 })();

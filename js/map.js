@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  //  Перемещение текущего пина, и вывод его адреса в поле адрес
+
   /* переменная для работы с MainPin */
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var pinMain = avatarBlock.querySelector('.pin__main');
@@ -24,16 +24,14 @@
   /* все что выходит за границы области перемещения скрывается */
   MapArea.style.overflow = 'hidden';
 
-  // ++++++++++++++++++++++++++++++++++++++++++++
-
   var getData = function (data) {
     window.currentOffers = data;
     /* создание автарок (pin) */
-    window.createAvatars(window.currentOffers, avatarBlock);
+    window.pin.createAvatars(data, avatarBlock);
   };
 
   /* загружаем данные с севрера */
-  window.load(getData, window.sendRequestHandler);
+  window.backend.load(getData, window.backend.sendRequestHandler);
 
   var movePinMainHandler = function (event) {
     event.preventDefault();
@@ -89,5 +87,7 @@
   };
 
   pinMain.addEventListener('mousedown', movePinMainHandler);
-
+  // window.map = {
+  //   currentOffers: currentOffers
+  // };
 })();

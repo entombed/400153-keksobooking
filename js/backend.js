@@ -30,7 +30,7 @@
           onLoad(xhr.response);
           break;
         case 404:
-          onError('Запрошенный документ отсутствует на сервере. Код ошибки ' + xhr.status );
+          onError('Запрошенный документ отсутствует на сервере. Код ошибки ' + xhr.status);
           break;
         case 500:
           onError('Внутренняя ошибка сервера. Код ошибки ' + xhr.status);
@@ -57,15 +57,17 @@
 
   };
   var load = function (onLoad, onError) {
-      sendRequest('GET', URL + '/data', onLoad, onError);
+    sendRequest('GET', URL + '/data', onLoad, onError);
   };
 
   var save = function (onLoad, onError, data) {
-      sendRequest('POST', URL, onLoad, onError, data);
+    sendRequest('POST', URL, onLoad, onError, data);
   };
 
   /* экспортируем в глобальную зону видимости */
-  window.load = load;
-  window.save = save;
-  window.sendRequestHandler = sendRequestHandler
+  window.backend = {
+    load: load,
+    save: save,
+    sendRequestHandler: sendRequestHandler
+  };
 })();

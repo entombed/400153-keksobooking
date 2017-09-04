@@ -37,5 +37,7 @@
   };
 
   /* экспортируем в глобальную зону видимости */
-  window.createDialog = createDialog;
+  window.card = {
+    createDialog: createDialog
+  };
 })();

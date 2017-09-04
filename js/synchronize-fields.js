@@ -19,5 +19,7 @@
   };
 
   /* экпортируем в глобальную зону видимости */
-  window.synchronizeFields = synchronizeFields;
+  window.synchronizeFields = {
+    synchronizeFields: synchronizeFields
+  };
 })();
