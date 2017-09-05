@@ -2,7 +2,7 @@
 
 (function () {
 
-  var keysCodes = {
+  var KEYS_CODES = {
     ESC: 27,
     ENTER: 13
   };
@@ -29,7 +29,7 @@
       escPressHandler.handlers.push(callback);
     }
     return function (event) {
-      if (event.keyCode === keysCodes['ESC']) {
+      if (event.keyCode === KEYS_CODES['ESC']) {
         escPressHandler.handlers.forEach(function (item) {
           item();
         });
@@ -48,7 +48,7 @@
   /* callback функция обрабатывающая нажатие клавиатуры */
   var entterPressHandler = function (callback) {
     return function (event) {
-      if (event.keyCode === keysCodes['ENTER']) {
+      if (event.keyCode === KEYS_CODES['ENTER']) {
         callback(event);
       }
     };
