@@ -68,10 +68,10 @@
   };
 
   /* синхронизируем поля */
-  window.synchronize_fields.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
-  window.synchronize_fields.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
-  window.synchronize_fields.synchronizeFields(type, price, typesHouses, pricesHouses, syncValueWithMin);
-  window.synchronize_fields.synchronizeFields(roomNumber, capacity, roomsCounts, placesCounts, syncValues);
+  window.synchronizeFields.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
+  window.synchronizeFields.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
+  window.synchronizeFields.synchronizeFields(type, price, typesHouses, pricesHouses, syncValueWithMin);
+  window.synchronizeFields.synchronizeFields(roomNumber, capacity, roomsCounts, placesCounts, syncValues);
 
   /**
    * Отключаем элементы в выпадающем списке "Количество мест"

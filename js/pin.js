@@ -78,8 +78,8 @@
   doHiddenDialogDetails();
 
   /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
-  tokyoPinMap.addEventListener('click', window.util.clickHandler(window.show_card.showCard));
-  tokyoPinMap.addEventListener('keydown', window.util.entterPressHandler(window.show_card.showCard));
+  tokyoPinMap.addEventListener('click', window.util.clickHandler(window.showCard.showCard));
+  tokyoPinMap.addEventListener('keydown', window.util.entterPressHandler(window.showCard.showCard));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
   offerDialog.addEventListener('click', window.util.clickHandler(hiddenDialogDetails));

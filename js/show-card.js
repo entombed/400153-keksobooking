@@ -26,7 +26,7 @@
   };
 
   /* экпортируем в глобальную зону видимости */
-  window.show_card = {
+  window.showCard = {
     showCard: showDialogDetails,
   };
 
