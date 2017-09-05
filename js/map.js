@@ -24,14 +24,25 @@
   /* все что выходит за границы области перемещения скрывается */
   mapArea.style.overflow = 'hidden';
 
+  /**
+   * Получаем массив данных с сервера, проверяем что это массив
+   *
+   * @param {array} data массив содержащий предложения о здаче квартир
+   */
+
   var loadData = function (data) {
-    /* сохраняем полученные данные и экспортируем их в глобальную зону видимости */
-    window.currentOffers = data;
-    /* создание автарок (pin) */
-    window.pin.createAvatars(data, avatarBlock);
+    /* Проверяем что data массив */
+    if (Object.prototype.toString.call(data) === '[Object Array]') {
+      throw new Error('Data not array');
+    } else {
+      /* сохраняем полученные данные и экспортируем их в глобальную зону видимости */
+      window.currentOffers = data;
+      /* создание автарок (pin) */
+      window.pin.createAvatars(data, avatarBlock);
+    }
   };
 
-  /* загружаем данные с севрера */
+  /* загружаем данные с севрера и выводим сообщение в случае ошибки получения данных */
   window.backend.load(loadData, window.util.sendRequestHandler);
 
   var movePinMainHandler = function (event) {
