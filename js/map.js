@@ -25,6 +25,7 @@
   mapArea.style.overflow = 'hidden';
 
   var loadData = function (data) {
+    /* сохраняем полученные данные и экспортируем их в глобальную зону видимости */
     window.currentOffers = data;
     /* создание автарок (pin) */
     window.pin.createAvatars(data, avatarBlock);
