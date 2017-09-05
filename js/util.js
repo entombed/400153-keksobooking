@@ -75,6 +75,9 @@
     msgBlock.style.zIndex = '10';
     msgBlock.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', msgBlock);
+    setTimeout(function () {
+      msgBlock.remove();
+    }, 2000);
   };
 
   /* экпортируем в глобальную зону видимости */
