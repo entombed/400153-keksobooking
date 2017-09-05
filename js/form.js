@@ -14,6 +14,13 @@
   /* переменная сохраняющая статус поля валидное или нет */
   var statusField = true;
 
+  /* масивы данных для синхронизации полей */
+  var regTime = ['12:00', '13:00', '14:00'];
+  var typesHouses = ['flat', 'house', 'bungalo', 'palace'];
+  var pricesHouses = [1000, 5000, 0, 10000];
+  var roomsCounts = ['1', '2', '3', '100'];
+  var placesCounts = [1, 2, 3, 0];
+
   /* Сброс формы по умолчанию */
   var resetToDefaultForm = function () {
     form.reset();
@@ -33,13 +40,6 @@
 
   /* Сбрасываем значение полей формы */
   resetToDefaultForm();
-
-  /* масиивы данных для синхронизации полей */
-  var regTime = ['12:00', '13:00', '14:00'];
-  var typesHouses = ['flat', 'house', 'bungalo', 'palace'];
-  var pricesHouses = [1000, 5000, 0, 10000];
-  var roomsCounts = ['1', '2', '3', '100'];
-  var placesCounts = [1, 2, 3, 0];
 
   /**
    * принимает значение из масиива и задает:

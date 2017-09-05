@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  // var oldPin = null;
   /* переменная для работы с окном (dialog) подробной информации о предложении */
   var offerDialog = document.querySelector('#offer-dialog');
 

@@ -24,6 +24,7 @@
     return node;
   };
 
+  /* функция обрабатывающая нажатие клавиаши ESC */
   function escPressHandler(callback) {
     if (typeof callback === 'function' && escPressHandler.handlers.indexOf(callback) === -1) {
       escPressHandler.handlers.push(callback);
@@ -45,7 +46,7 @@
     };
   };
 
-  /* callback функция обрабатывающая нажатие клавиатуры */
+  /* функция обрабатывающая нажатие клавиаши ENTER */
   var entterPressHandler = function (callback) {
     return function (event) {
       if (event.keyCode === KEYS_CODES['ENTER']) {
