@@ -29,7 +29,7 @@
     xhr.addEventListener('timeout', function () {
       onError('Превышено время соединения. Запрос не выполнился за ' + xhr.timeout + ' мс');
     });
-    xhr.timeout = 4000;
+    xhr.timeout = 10000;
     xhr.open(method, url);
     xhr.send(data);
   };
