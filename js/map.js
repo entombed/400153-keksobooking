@@ -48,9 +48,6 @@
   var pinMainMoveHandler = function (event) {
     event.preventDefault();
 
-    /* блокируем ввод адреса руками в поле адрес */
-    addressInput.setAttribute('readonly', 'readonly');
-
     /* текущая позиция pin__main */
     var currentPinPosition = {
       x: event.clientX,
