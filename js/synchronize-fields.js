@@ -2,19 +2,19 @@
 
 (function () {
 
+
   /**
-   * Синхронизация полей, данные берутся из field1 = array1, field2 = array2
+   * Синхронизация полей форм
    *
-   * @param {any} field1 поле формы (изменение этого поля инициирует синхронизацию)
-   * @param {any} field2 поле формы (в этом поле изменяются данные)
-   * @param {any} array1 массив данных (значения которые содержатся в field1 )
-   * @param {any} array2 массив данных (значения которые содержатся в field2)
-   * @param {any} callback функция изменяющая значение поля field2
+   * @param {string} eventName
+   * @param {obj} field1
+   * @param {obj} field2
+   * @param {function} callback
    */
-  var synchronizeFields = function (field1, field2, array1, array2, callback) {
-    field1.addEventListener('change', function () {
-      var index = array1.indexOf(field1.value);
-      callback(field2, array2[index]);
+  var synchronizeFields = function (eventName, field1, field2, callback) {
+    callback(field1, field2);
+    field1.addEventListener(eventName, function () {
+      callback(field1, field2);
     });
   };
 

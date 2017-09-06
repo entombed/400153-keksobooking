@@ -1,14 +1,7 @@
 'use strict';
 (function () {
-  var pin = document.querySelector('.pin__main');
-  /* размеры картинки pin__main */
-  var pinMainWidth = pin.offsetWidth;
-  var pinMainHeight = pin.offsetHeight;
-  /* вычисляем координаты pin__main при загрузке страницы*/
-  var startPinCoord = {
-    x: pin.offsetLeft + Math.floor(pinMainWidth / 2),
-    y: pin.offsetTop + pinMainHeight
-  };
+  var pinMain = document.querySelector('.pin__main');
+
 
   /* Переменные формы с объявлением */
   var form = document.querySelector('.notice__form');
@@ -24,12 +17,62 @@
   /* переменная сохраняющая статус поля валидное или нет */
   var statusField = true;
 
-  /* масивы данных для синхронизации полей */
-  var regTime = ['12:00', '13:00', '14:00'];
-  var typesHouses = ['flat', 'house', 'bungalo', 'palace'];
-  var pricesHouses = [1000, 5000, 0, 10000];
-  var roomsCounts = ['1', '2', '3', '100'];
-  var placesCounts = [1, 2, 3, 0];
+  var getPinMainPosition = function (pin) {
+    var pinWidth = pin.offsetWidth;
+    var pinHeight = pin.offsetHeight;
+    var pinCoord = {
+      x: pin.offsetLeft + Math.floor(pinWidth / 2),
+      y: pin.offsetTop + pinHeight
+    };
+    address.value = 'x: ' + pinCoord.x + ' y: ' + pinCoord.y;
+  };
+
+  var syncPriceField = function (field1, field2) {
+    var value = null;
+    switch (field1.value) {
+      case 'flat':
+        value = 1000;
+        break;
+      case 'bungalo':
+        value = 0;
+        break;
+      case 'house':
+        value = 5000;
+        break;
+      case 'palace':
+        value = 10000;
+        break;
+    }
+    field2.value = value;
+    field2.min = value;
+  };
+
+  var syncTimeField = function (field1, field2) {
+    field2.selectedIndex = field1.selectedIndex;
+  };
+
+  var syncCapacityField = function (field1, field2) {
+    var value = Number(field1.value);
+    var options = field2.options;
+    var optionsLength = options.length;
+    var currentValue = null;
+
+    for (var i = 0; i < optionsLength; i++) {
+      currentValue = Number(options[i].value);
+      options[i].disabled = true;
+      if (currentValue === 0 && value === 100) {
+        options[i].selected = true;
+        options[i].disabled = false;
+      }
+      if (currentValue === value) {
+        options[i].selected = true;
+        options[i].disabled = false;
+      }
+      if (currentValue < value && currentValue !== 0 && value !== 100) {
+        options[i].disabled = false;
+      }
+    }
+  };
 
   /* Сброс формы по умолчанию */
   var resetToDefaultForm = function () {
@@ -39,85 +82,21 @@
     title.maxLength = 100;
     price.required = true;
     price.type = 'number';
-    price.min = 0;
     price.max = 1000000;
-    price.value = 1000;
-    type.value = 'flat';
     address.required = true;
-    form.action = 'https://1510.dump.academy/keksobooking';
-    roomNumber.value = 1;
-    address.value = 'x: ' + startPinCoord.x + ' y: ' + startPinCoord.y;
+    syncPriceField(type, price);
+    syncCapacityField(roomNumber, capacity);
+    getPinMainPosition(pinMain);
     address.setAttribute('readonly', 'readonly');
   };
 
   /* Сбрасываем значение полей формы */
   resetToDefaultForm();
 
-  /**
-   * принимает значение из масиива и задает:
-   * значение переданному полю
-   *
-   * @param {obj} field поле формы
-   * @param {any} data значение из массива
-   */
-
-  var syncValues = function (field, data) {
-    field.value = data;
-  };
-
-  /**
-   * принимает значение из масиива и задает:
-   *  - минимальное значение переданного поля
-   *  - значение в переданном поле
-   *
-   * @param {obj} field поле формы
-   * @param {any} data значение из массива
-   */
-
-  var syncValueWithMin = function (field, data) {
-    field.min = data;
-    field.value = data;
-  };
-
-  /* синхронизируем поля */
-  window.synchronizeFields.synchronizeFields(timeIn, timeOut, regTime, regTime, syncValues);
-  window.synchronizeFields.synchronizeFields(timeOut, timeIn, regTime, regTime, syncValues);
-  window.synchronizeFields.synchronizeFields(type, price, typesHouses, pricesHouses, syncValueWithMin);
-  window.synchronizeFields.synchronizeFields(roomNumber, capacity, roomsCounts, placesCounts, syncValues);
-
-  /**
-   * Отключаем элементы в выпадающем списке "Количество мест"
-   * в зависимости от количества выбранных комнат в списке "Кол-во комнат"
-   */
-
-  var disableCapacityOption = function () {
-    for (var i = 0; i < capacity.options.length; i++) {
-      capacity.options[i].disabled = false;
-    }
-    switch (roomNumber.value) {
-      case '1':
-        capacity.value = '1';
-        capacity.options[0].disabled = true;
-        capacity.options[1].disabled = true;
-        capacity.options[3].disabled = true;
-        break;
-      case '2':
-        capacity.value = '2';
-        capacity.options[0].disabled = true;
-        capacity.options[3].disabled = true;
-        break;
-      case '3':
-        capacity.value = '3';
-        capacity.options[3].disabled = true;
-        break;
-      case '100':
-        capacity.value = '0';
-        capacity.options[0].disabled = true;
-        capacity.options[1].disabled = true;
-        capacity.options[2].disabled = true;
-        break;
-    }
-  };
+  window.synchronizeFields.synchronizeFields('change', timeIn, timeOut, syncTimeField);
+  window.synchronizeFields. synchronizeFields('change', timeOut, timeIn, syncTimeField);
+  window.synchronizeFields.synchronizeFields('change', type, price, syncPriceField);
+  window.synchronizeFields.synchronizeFields('change', roomNumber, capacity, syncCapacityField);
 
   /**
    * изменяем цвет рамки поля
@@ -183,9 +162,6 @@
         break;
     }
   };
-
-  /* слушатель собятия изменения поля коичество комнат */
-  roomNumber.addEventListener('change', disableCapacityOption);
 
   /* слушатель события потери фокуса в поля формы */
   form.addEventListener('blur', checkBluerField, true);
