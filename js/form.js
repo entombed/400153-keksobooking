@@ -1,15 +1,25 @@
 'use strict';
 (function () {
+  var pin = document.querySelector('.pin__main');
+  /* размеры картинки pin__main */
+  var pinMainWidth = pin.offsetWidth;
+  var pinMainHeight = pin.offsetHeight;
+  /* вычисляем координаты pin__main при загрузке страницы*/
+  var startPinCoord = {
+    x: pin.offsetLeft + Math.floor(pinMainWidth / 2),
+    y: pin.offsetTop + pinMainHeight
+  };
+
   /* Переменные формы с объявлением */
   var form = document.querySelector('.notice__form');
-  var title = form.querySelector('#title');
-  var type = form.querySelector('#type');
-  var price = form.querySelector('#price');
-  var timeIn = form.querySelector('#timein');
-  var timeOut = form.querySelector('#timeout');
-  var roomNumber = form.querySelector('#room_number');
-  var capacity = form.querySelector('#capacity');
-  var address = form.querySelector('#address');
+  var title = form.title;
+  var type = form.type;
+  var price = form.price;
+  var timeIn = form.timein;
+  var timeOut = form.timeout;
+  var roomNumber = form.room_number;
+  var capacity = form.capacity;
+  var address = form.address;
 
   /* переменная сохраняющая статус поля валидное или нет */
   var statusField = true;
@@ -36,6 +46,8 @@
     address.required = true;
     form.action = 'https://1510.dump.academy/keksobooking';
     roomNumber.value = 1;
+    address.value = 'x: ' + startPinCoord.x + ' y: ' + startPinCoord.y;
+    address.setAttribute('readonly', 'readonly');
   };
 
   /* Сбрасываем значение полей формы */
