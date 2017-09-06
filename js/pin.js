@@ -79,11 +79,11 @@
 
   /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
   tokyoPinMap.addEventListener('click', window.util.clickHandler(window.showCard.showCard));
-  tokyoPinMap.addEventListener('keydown', window.util.entterPressHandler(window.showCard.showCard));
+  tokyoPinMap.addEventListener('keydown', window.util.enterPressHandler(window.showCard.showCard));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
   offerDialog.addEventListener('click', window.util.clickHandler(hiddenDialogDetails));
-  offerDialog.addEventListener('keydown', window.util.entterPressHandler(hiddenDialogDetails));
+  offerDialog.addEventListener('keydown', window.util.enterPressHandler(hiddenDialogDetails));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. закрытие по нажатию esc */
   document.addEventListener('keydown', window.util.escPressHandler(doHiddenDialogDetails));
