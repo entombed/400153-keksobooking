@@ -32,8 +32,8 @@
 
   var loadData = function (data) {
     /* Проверяем что data массив */
-    if (Object.prototype.toString.call(data) === '[Object Array]') {
-      throw new Error('Data not array');
+    if (Object.prototype.toString.call(data) !== '[object Array]') {
+      throw new Error('Data is not array');
     } else {
       /* сохраняем полученные данные и экспортируем их в глобальную зону видимости */
       window.currentOffers = data;
@@ -43,9 +43,9 @@
   };
 
   /* загружаем данные с севрера и выводим сообщение в случае ошибки получения данных */
-  window.backend.load(loadData, window.util.sendRequestHandler);
+  window.backend.load(loadData, window.util.requestSendHandler);
 
-  var movePinMainHandler = function (event) {
+  var pinMainMoveHandler = function (event) {
     event.preventDefault();
 
     /* блокируем ввод адреса руками в поле адрес */
@@ -98,6 +98,6 @@
     document.addEventListener('mouseup', mouseUpHandler);
   };
 
-  pinMain.addEventListener('mousedown', movePinMainHandler);
+  pinMain.addEventListener('mousedown', pinMainMoveHandler);
 
 })();
