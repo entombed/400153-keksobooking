@@ -45,7 +45,7 @@
    * принимает значение из масиива и задает:
    * значение переданному полю
    *
-   * @param {any} field поле формы
+   * @param {obj} field поле формы
    * @param {any} data значение из массива
    */
 
@@ -58,7 +58,7 @@
    *  - минимальное значение переданного поля
    *  - значение в переданном поле
    *
-   * @param {any} field поле формы
+   * @param {obj} field поле формы
    * @param {any} data значение из массива
    */
 
@@ -182,7 +182,7 @@
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (statusField) {
-      window.backend.save(resetToDefaultForm, window.util.sendRequestHandler, new FormData(form));
+      window.backend.save(resetToDefaultForm, window.util.requestSendHandler, new FormData(form));
     }
   });
 })();
