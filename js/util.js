@@ -47,7 +47,7 @@
   };
 
   /* функция обрабатывающая нажатие клавиаши ENTER */
-  var entterPressHandler = function (callback) {
+  var enterPressHandler = function (callback) {
     return function (event) {
       if (event.keyCode === KEYS_CODES['ENTER']) {
         callback(event);
@@ -61,7 +61,7 @@
    * @param {string} errorMessage
    */
 
-  var sendRequestHandler = function (errorMessage) {
+  var requestSendHandler = function (errorMessage) {
     var msgBlock = document.createElement('div');
     msgBlock.classList.add('errorMsgBlock');
     msgBlock.style.padding = '10px';
@@ -85,8 +85,8 @@
   window.util = {
     getParentBySelector: getParentBySelector,
     escPressHandler: escPressHandler,
-    entterPressHandler: entterPressHandler,
+    enterPressHandler: enterPressHandler,
     clickHandler: clickHandler,
-    sendRequestHandler: sendRequestHandler
+    requestSendHandler: requestSendHandler
   };
 })();
