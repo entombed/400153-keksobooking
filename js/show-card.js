@@ -10,8 +10,8 @@
    *
    */
 
-  var showDialogDetails = function () {
-    var pin = window.util.getParentBySelector(event.target, 'pin'); // ?? Б23. Нельзя пользоваться глобальной переменной event
+  var showDialogDetails = function (event) {
+    var pin = window.util.getParentBySelector(event.target, 'pin');
     if (pin && !pin.classList.contains('pin__main')) {
       pin.classList.add('pin--active');
       if (window.oldPin && window.oldPin !== pin) {
