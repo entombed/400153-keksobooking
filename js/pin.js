@@ -21,7 +21,7 @@
    * @return HTML блок для аватарки
    */
 
-  var createAvatarBlock = function (array, counter) {
+  var createTemplatePin = function (array, counter) {
     var pinBlock = document.createElement('div');
     var imgBlock = document.createElement('img');
     pinBlock.dataset.countNumber = counter;
@@ -44,10 +44,10 @@
    * @param {obj} template карта на которой размещаются аватарки (pin)
    */
 
-  var createAvatars = function (array, template) {
+  var createPins = function (array, template) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(createAvatarBlock(array[i], i));
+      fragment.appendChild(createTemplatePin(array[i], i));
     }
     template.appendChild(fragment);
   };
@@ -90,6 +90,6 @@
 
   /* экспортируем в глобальную область видимости */
   window.pin = {
-    createAvatars: createAvatars
+    createPins: createPins
   };
 })();
