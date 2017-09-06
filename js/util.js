@@ -40,9 +40,9 @@
   escPressHandler.handlers = [];
 
   /* callback функция обрабатывающая клик мышки */
-  var clickHandler = function clickHandler(calldack) {
+  var clickHandler = function clickHandler(callback) {
     return function (event) {
-      calldack(event);
+      callback(event);
     };
   };
 
