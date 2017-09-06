@@ -43,7 +43,7 @@
   };
 
   /* загружаем данные с севрера и выводим сообщение в случае ошибки получения данных */
-  window.backend.load(loadData, window.util.requestSendHandler);
+  window.backend.load(loadData, window.util.errorRequestHandler);
 
   var pinMainMoveHandler = function (event) {
     event.preventDefault();

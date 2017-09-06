@@ -194,7 +194,7 @@
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (statusField) {
-      window.backend.save(resetToDefaultForm, window.util.requestSendHandler, new FormData(form));
+      window.backend.save(resetToDefaultForm, window.util.errorRequestHandler, new FormData(form));
     }
   });
 })();

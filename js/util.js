@@ -61,7 +61,7 @@
    * @param {string} errorMessage
    */
 
-  var requestSendHandler = function (errorMessage) {
+  var errorRequestHandler = function (errorMessage) {
     var msgBlock = document.createElement('div');
     msgBlock.classList.add('errorMsgBlock');
     msgBlock.style.padding = '10px';
@@ -87,6 +87,6 @@
     escPressHandler: escPressHandler,
     enterPressHandler: enterPressHandler,
     clickHandler: clickHandler,
-    requestSendHandler: requestSendHandler
+    errorRequestHandler: errorRequestHandler
   };
 })();
