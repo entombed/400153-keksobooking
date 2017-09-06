@@ -1,7 +1,7 @@
 'use strict';
 (function () {
+  /* Переменная для работы с pin__main */
   var pinMain = document.querySelector('.pin__main');
-
 
   /* Переменные формы с объявлением */
   var form = document.querySelector('.notice__form');
@@ -17,6 +17,11 @@
   /* переменная сохраняющая статус поля валидное или нет */
   var statusField = true;
 
+  /**
+   * Получаем координаты при загрузке страницы и при сбросе формыю
+   *
+   * @param {obj} pin
+   */
   var getPinMainPosition = function (pin) {
     var pinWidth = pin.offsetWidth;
     var pinHeight = pin.offsetHeight;
@@ -27,6 +32,12 @@
     address.value = 'x: ' + pinCoord.x + ' y: ' + pinCoord.y;
   };
 
+  /**
+   * Стнхронизируем поле "Цена за ночь, руб." в зависимости от выбранного значения в поле "Тип жилья"
+   *
+   * @param {any} field1 поле формы
+   * @param {any} field2 поле формы
+   */
   var syncPriceField = function (field1, field2) {
     var value = null;
     switch (field1.value) {
@@ -47,10 +58,22 @@
     field2.min = value;
   };
 
+  /**
+   * Синхронизируем поля "Время заезда и выезда"
+   *
+   * @param {obj} field1 поле формы
+   * @param {obj} field2 поле формы
+   */
   var syncTimeField = function (field1, field2) {
     field2.selectedIndex = field1.selectedIndex;
   };
 
+  /**
+   * Синхронизируем поле "Количество мест" в зависимости от выбранного значения в поле "Кол-во комнат"
+   *
+   * @param {obj} field1 поле формы
+   * @param {obj} field2 поле формы
+   */
   var syncCapacityField = function (field1, field2) {
     var value = Number(field1.value);
     var options = field2.options;
@@ -90,14 +113,6 @@
     address.setAttribute('readonly', 'readonly');
   };
 
-  /* Сбрасываем значение полей формы */
-  resetToDefaultForm();
-
-  window.synchronizeFields.synchronizeFields('change', timeIn, timeOut, syncTimeField);
-  window.synchronizeFields. synchronizeFields('change', timeOut, timeIn, syncTimeField);
-  window.synchronizeFields.synchronizeFields('change', type, price, syncPriceField);
-  window.synchronizeFields.synchronizeFields('change', roomNumber, capacity, syncCapacityField);
-
   /**
    * изменяем цвет рамки поля
    *
@@ -133,7 +148,7 @@
   /**
    * проверка поля адрес
    *
-   * @param {any} currentField поле формы
+   * @param {obj} currentField поле формы
    */
 
   var checkDataInFieldAddress = function (currentField) {
@@ -144,9 +159,9 @@
   };
 
   /**
-   * выбор необходимой функции в зависимости от поля
+   * Вызываем необходимую функцию в зависимости от занчени name поля
    *
-   * @param {any} event
+   * @param {obj} event
    */
 
   var checkBluerField = function (event) {
@@ -162,6 +177,15 @@
         break;
     }
   };
+
+  /* Сбрасываем значение полей формы */
+  resetToDefaultForm();
+
+  /* синхронизируем поля */
+  window.synchronizeFields.synchronizeFields('change', timeIn, timeOut, syncTimeField);
+  window.synchronizeFields. synchronizeFields('change', timeOut, timeIn, syncTimeField);
+  window.synchronizeFields.synchronizeFields('change', type, price, syncPriceField);
+  window.synchronizeFields.synchronizeFields('change', roomNumber, capacity, syncCapacityField);
 
   /* слушатель события потери фокуса в поля формы */
   form.addEventListener('blur', checkBluerField, true);
