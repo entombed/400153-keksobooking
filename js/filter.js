@@ -38,6 +38,8 @@
     }
     clearMap();
     window.pin.createPins(newA, avatarBlock);
+    console.log(check);
+    console.log(newA);
   }
 
   var clearMap = function () {
