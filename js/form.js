@@ -146,19 +146,6 @@
   };
 
   /**
-   * проверка поля адрес
-   *
-   * @param {obj} currentField поле формы
-   */
-
-  var checkDataInFieldAddress = function (currentField) {
-    changeStyleBorderColor(currentField, true);
-    if (!currentField.value) {
-      changeStyleBorderColor(currentField, false);
-    }
-  };
-
-  /**
    * Вызываем необходимую функцию в зависимости от занчения name поля
    *
    * @param {obj} event
@@ -166,9 +153,6 @@
 
   var checkBluerField = function (event) {
     switch (event.target.name.toLowerCase()) {
-      case 'address':
-        checkDataInFieldAddress(address);
-        break;
       case 'title':
         checkDataInField(title, title.value.length, title.minLength, title.maxLength);
         break;
