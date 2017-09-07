@@ -5,50 +5,70 @@
 
 
   var filterPins = function (event, array, filter) {
+    var check = null;
     switch (event.target.name.toLowerCase()) {
       case 'housing_type':
-        //console.log(filter['housing_type']['value']);
-        var check = 'type'
+// проверяем тип
+        check = 'type';
         sortArray(array, filter['housing_type']['value'], check);
         break;
       case 'housing_price':
-//        console.log(filter['housing_price']['value']);
+// проверяем цену
+        check = 'price';
+        getByPrice(array, filter['housing_price']['value'], check);
         break;
       case 'housing_room-number':
-//        console.log(filter['housing_room-number']['value']);
-        var check = 'rooms';
-        sortArray(array, filter['housing_room-number']['value'], check);
+// кол-во комнат
+        check = 'rooms';
+        sortArray(array, Number(filter['housing_room-number']['value']), check);
         break;
       case 'housing_guests-number':
-//        console.log(filter['housing_guests-number']['value']);
-        var check = 'guests';
-        sortArray(array, filter['housing_guests-number']['value'], check);
+// кол-во гостей
+        check = 'guests';
+        sortArray(array, Number(filter['housing_guests-number']['value']), check);
         break;
     }
   };
 
   var sortArray = function (array, data, check) {
-
-    if (data == 'any') {
+    if (data === 'any') {
       newA = array;
     } else {
-      var newA = array.filter(function (room) {
-        return room.offer[check] == data;
+      var newA = array.filter(function (item) {
+        return item.offer[check] === data;
       });
     }
     clearMap();
     window.pin.createPins(newA, avatarBlock);
     console.log(check);
     console.log(newA);
-  }
+  };
+
+  var getByPrice = function (array, data, check) {
+    var newA = array.filter(function (item) {
+      var rez = null;
+      if (data === 'middle') {
+        rez = item.offer[check] <= 50000 && item.offer[check] >= 10000;
+      } else if (data === 'low') {
+        rez = item.offer[check] <= 10000;
+      } else if (data === 'high') {
+        rez = item.offer[check] >= 50000;
+      }
+      return rez;
+    });
+    clearMap();
+    window.pin.createPins(newA, avatarBlock);
+    console.log(check);
+    console.log(newA);
+  };
 
   var clearMap = function () {
-    var pins =  avatarBlock.querySelectorAll('.pin:not(.pin__main)');
+    var pins = avatarBlock.querySelectorAll('.pin:not(.pin__main)');
     for (var i = 0; i < pins.length; i++) {
-      pins[i].parentNode.removeChild(pins[i]);
+      pins[i].classList.add('hidden');
     }
   };
   window.filter = {
     filterPins: filterPins
-  }
+  };
 }());
