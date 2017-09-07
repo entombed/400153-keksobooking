@@ -19,6 +19,7 @@
   var mapAreaHeight = pinMain.offsetParent.offsetHeight;
   var mapAreaWidth = pinMain.offsetParent.offsetWidth;
   var tokyoFilter = mapArea.querySelector('.tokyo__filters-container');
+  var tokyoFilterForm = tokyoFilter.querySelector('.tokyo__filters');
   var tokyoFilterHeight = tokyoFilter.offsetHeight;
 
   /* все что выходит за границы области перемещения скрывается */
@@ -97,4 +98,7 @@
 
   pinMain.addEventListener('mousedown', pinMainMoveHandler);
 
+  tokyoFilter.addEventListener('change', function () {
+    window.filter.filterPins(event, window.currentOffers, tokyoFilterForm);
+  });
 })();
