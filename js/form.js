@@ -29,7 +29,7 @@
       x: pin.offsetLeft + Math.floor(pinWidth / 2),
       y: pin.offsetTop + pinHeight
     };
-    address.value = 'x: ' + pinCoord.x + ' y: ' + pinCoord.y;
+    address.value = 'x: ' + pinCoord.x + ', y: ' + pinCoord.y;
   };
 
   /**
@@ -165,9 +165,9 @@
   /* Сбрасываем значение полей формы */
   resetToDefaultForm();
 
-  /* синхронизируем поля */
+  /* передаем данные для синхронизации полей формы */
   window.synchronizeFields.synchronizeFields('change', timeIn, timeOut, syncTimeField);
-  window.synchronizeFields. synchronizeFields('change', timeOut, timeIn, syncTimeField);
+  window.synchronizeFields.synchronizeFields('change', timeOut, timeIn, syncTimeField);
   window.synchronizeFields.synchronizeFields('change', type, price, syncPriceField);
   window.synchronizeFields.synchronizeFields('change', roomNumber, capacity, syncCapacityField);
 
