@@ -1,66 +1,10 @@
 'use strict';
 
 (function () {
-  /**
-   * Случайное кол-во элементов из массива
-   *
-   * @param {array} array
-   * @return массив элементов
-   */
 
-  var resortItems = function (array) {
-    var tmpArray = [];
-    var currentLength = getRandomInt(1, array.length);
-    for (var i = 0; i < currentLength; i++) {
-      tmpArray.push(getUniqueItem(array, i));
-    }
-    return tmpArray;
-  };
-
-  /**
-   * Случайное целое число в диапазоне min max
-   *
-   * @param {int} min минимальное значение
-   * @param {int} max максимальное значение
-   * @return случайное число
-   */
-
-  var getRandomInt = function (min, max) {
-    var rand = min - 0.5 + Math.random() * (max - min + 1);
-    rand = Math.round(rand);
-    return rand;
-  };
-
-  /**
-   * Случайные элемент массива
-   *
-   * @param {array} array принимает массив
-   * @return случайный элемент массива
-   */
-
-  var getRandomItem = function (array) {
-    var length = array.length;
-    var randomItem = getRandomInt(0, length - 1);
-    return array[randomItem];
-  };
-
-  /**
-   * Возвращает уникальный элемент из массива
-   *
-   * @param {array} array принимает массив
-   * @param {int} i число
-   * @return уникальный элемент из массива
-   */
-
-  var getUniqueItem = function (array, i) {
-    var currentIndex = i || 0;
-    var index = getRandomInt(currentIndex, array.length - 1);
-    var tmp = null;
-    var value = array[index];
-    tmp = array[currentIndex];
-    array[currentIndex] = array[index];
-    array[index] = tmp;
-    return value;
+  var KEYS_CODES = {
+    ESC: 27,
+    ENTER: 13
   };
 
   /**
@@ -80,17 +24,13 @@
     return node;
   };
 
-  var keysCodes = {
-    ESC: 27,
-    ENTER: 13
-  };
-
+  /* функция обрабатывающая нажатие клавиаши ESC */
   function escPressHandler(callback) {
     if (typeof callback === 'function' && escPressHandler.handlers.indexOf(callback) === -1) {
       escPressHandler.handlers.push(callback);
     }
     return function (event) {
-      if (event.keyCode === keysCodes['ESC']) {
+      if (event.keyCode === KEYS_CODES['ESC']) {
         escPressHandler.handlers.forEach(function (item) {
           item();
         });
@@ -100,28 +40,53 @@
   escPressHandler.handlers = [];
 
   /* callback функция обрабатывающая клик мышки */
-  var clickHandler = function clickHandler(calldack) {
+  var clickHandler = function clickHandler(callback) {
     return function (event) {
-      calldack(event);
+      callback(event);
     };
   };
 
-  /* callback функция обрабатывающая нажатие клавиатуры */
-  var entterPressHandler = function (callback) {
+  /* функция обрабатывающая нажатие клавиаши ENTER */
+  var enterPressHandler = function (callback) {
     return function (event) {
-      if (event.keyCode === keysCodes['ENTER']) {
+      if (event.keyCode === KEYS_CODES['ENTER']) {
         callback(event);
       }
     };
   };
 
-  /* экспортируем в глобальную область видимости */
-  window.resortItems = resortItems;
-  window.getRandomInt = getRandomInt;
-  window.getRandomItem = getRandomItem;
-  window.getUniqueItem = getUniqueItem;
-  window.getParentBySelector = getParentBySelector;
-  window.escPressHandler = escPressHandler;
-  window.entterPressHandler = entterPressHandler;
-  window.clickHandler = clickHandler;
+  /**
+   * сообщение при отпраке запроса на сервер
+   *
+   * @param {string} errorMessage
+   */
+
+  var errorRequestHandler = function (errorMessage) {
+    var msgBlock = document.createElement('div');
+    msgBlock.classList.add('errorMsgBlock');
+    msgBlock.style.padding = '10px';
+    msgBlock.style.textAlign = 'center';
+    msgBlock.style.backgroundColor = 'red';
+    msgBlock.style.position = 'fixed';
+    msgBlock.style.transform = 'translate(-50%, -50%)';
+    msgBlock.style.left = '50%';
+    msgBlock.style.top = '50%';
+    msgBlock.style.fontSize = '25px';
+    msgBlock.style.color = 'white';
+    msgBlock.style.zIndex = '10';
+    msgBlock.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', msgBlock);
+    setTimeout(function () {
+      msgBlock.remove();
+    }, 2000);
+  };
+
+  /* экпортируем в глобальную зону видимости */
+  window.util = {
+    getParentBySelector: getParentBySelector,
+    escPressHandler: escPressHandler,
+    enterPressHandler: enterPressHandler,
+    clickHandler: clickHandler,
+    errorRequestHandler: errorRequestHandler
+  };
 })();

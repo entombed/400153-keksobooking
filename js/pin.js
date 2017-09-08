@@ -13,8 +13,6 @@
   /* переменная для работы с картой на которой размещаются аватарки (pin) */
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
 
-  // var avatarBlock = document.querySelector('.tokyo__pin-map');
-
   /**
    * создание блока автарки с указанием стилей и позиции размещения на карте
    *
@@ -23,7 +21,7 @@
    * @return HTML блок для аватарки
    */
 
-  var createAvatarBlock = function (array, counter) {
+  var createTemplatePin = function (array, counter) {
     var pinBlock = document.createElement('div');
     var imgBlock = document.createElement('img');
     pinBlock.dataset.countNumber = counter;
@@ -46,10 +44,10 @@
    * @param {obj} template карта на которой размещаются аватарки (pin)
    */
 
-  var createAvatars = function (array, template) {
+  var createPins = function (array, template) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < array.length; i++) {
-      fragment.appendChild(createAvatarBlock(array[i], i));
+      fragment.appendChild(createTemplatePin(array[i], i));
     }
     template.appendChild(fragment);
   };
@@ -69,7 +67,7 @@
    */
 
   var hiddenDialogDetails = function (event) {
-    if (window.getParentBySelector(event.target, 'dialog__close')) {
+    if (window.util.getParentBySelector(event.target, 'dialog__close')) {
       if (!offerDialog.classList.contains('hidden')) {
         doHiddenDialogDetails();
       }
@@ -80,16 +78,18 @@
   doHiddenDialogDetails();
 
   /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
-  tokyoPinMap.addEventListener('click', window.clickHandler(window.showCard));
-  tokyoPinMap.addEventListener('keydown', window.entterPressHandler(window.showCard));
+  tokyoPinMap.addEventListener('click', window.util.clickHandler(window.showCard.showCard));
+  tokyoPinMap.addEventListener('keydown', window.util.enterPressHandler(window.showCard.showCard));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
-  offerDialog.addEventListener('click', window.clickHandler(hiddenDialogDetails));
-  offerDialog.addEventListener('keydown', window.entterPressHandler(hiddenDialogDetails));
+  offerDialog.addEventListener('click', window.util.clickHandler(hiddenDialogDetails));
+  offerDialog.addEventListener('keydown', window.util.enterPressHandler(hiddenDialogDetails));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. закрытие по нажатию esc */
-  document.addEventListener('keydown', window.escPressHandler(doHiddenDialogDetails));
+  document.addEventListener('keydown', window.util.escPressHandler(doHiddenDialogDetails));
 
   /* экспортируем в глобальную область видимости */
-  window.createAvatars = createAvatars;
+  window.pin = {
+    createPins: createPins
+  };
 })();

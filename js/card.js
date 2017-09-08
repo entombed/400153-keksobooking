@@ -2,6 +2,7 @@
 (function () {
   /* Переменная для работы с окном (dialog) подробной мнформации о предложении */
   var dialog = document.querySelector('.dialog');
+  var dialogAvatar = dialog.querySelector('.dialog__title img');
 
   /* Переменная для шаблона окна (dialog) */
   var lodgeTemplate = document.querySelector('#lodge-template').content;
@@ -31,11 +32,13 @@
     }
 
     lodgeItem.querySelector('.lodge__description').textContent = array['offer']['description'];
-    dialog.querySelector('.dialog__title img').src = array['author']['avatar'];
+    dialogAvatar.src = array['author']['avatar'];
 
     dialog.replaceChild(lodgeItem, dialogPanel);
   };
 
   /* экспортируем в глобальную зону видимости */
-  window.createDialog = createDialog;
+  window.card = {
+    createDialog: createDialog
+  };
 })();

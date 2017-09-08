@@ -1,46 +1,61 @@
 'use strict';
 (function () {
-  //  Перемещение текущего пина, и вывод его адреса в поле адрес
-  /* переменная для работы с MainPin */
+
+  /* переменная для работы с pin__main */
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var pinMain = avatarBlock.querySelector('.pin__main');
 
-  /* переменная для работы с полем адресс */
+  /* переменная для работы с полем адрес */
   var addressInput = document.getElementById('address');
 
-  /* размеры картинки MainPin */
+  /* размеры картинки pin__main */
   var pinMainWidth = pinMain.offsetWidth;
   var pinMainHeight = pinMain.offsetHeight;
 
-  /* переменная для работы с картой на которую размещаются аватарки (pin) */
-  var MapArea = document.querySelector('.tokyo');
+  /* переменная для работы с картой на которой размещаются аватарки (pin) */
+  var mapArea = document.querySelector('.tokyo');
 
-  /* высота и ширина области перемещения pin-main*/
-  var MapAreaHeight = pinMain.offsetParent.offsetHeight;
-  var MapAreaWidth = pinMain.offsetParent.offsetWidth;
-  var tokyoFilter = MapArea.querySelector('.tokyo__filters-container');
+  /* высота и ширина области перемещения pin__main */
+  var mapAreaHeight = pinMain.offsetParent.offsetHeight;
+  var mapAreaWidth = pinMain.offsetParent.offsetWidth;
+  var tokyoFilter = mapArea.querySelector('.tokyo__filters-container');
   var tokyoFilterHeight = tokyoFilter.offsetHeight;
 
   /* все что выходит за границы области перемещения скрывается */
-  MapArea.style.overflow = 'hidden';
+  mapArea.style.overflow = 'hidden';
 
-  /* создание автарок (pin) */
-  window.createAvatars(window.currentOffers, avatarBlock);
+  /**
+   * Получаем массив данных с сервера, проверяем что это массив
+   *
+   * @param {array} data массив содержащий предложения о здаче квартир
+   */
 
-  var movePinMainHandler = function (event) {
+  var loadData = function (data) {
+    /* Проверяем что data массив */
+    if (Object.prototype.toString.call(data) !== '[object Array]') {
+      throw new Error('Data is not array');
+    } else {
+      /* сохраняем полученные данные и экспортируем их в глобальную зону видимости */
+      window.currentOffers = data;
+      /* создание автарок (pin) */
+      window.pin.createPins(data, avatarBlock);
+    }
+  };
+
+  /* загружаем данные с севрера и выводим сообщение в случае ошибки получения данных */
+  window.backend.load(loadData, window.util.errorRequestHandler);
+
+  var pinMainMoveHandler = function (event) {
     event.preventDefault();
 
-    /* блокируем ввод адреса руками в поле адрес */
-    addressInput.setAttribute('readonly', 'readonly');
-
-    /* текущая позиция MainPin */
+    /* текущая позиция pin__main */
     var currentPinPosition = {
       x: event.clientX,
       y: event.clientY
     };
 
     /*  */
-    var MouseMoveHandler = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       /* сдвиг относитено стартовых кооррдинат */
       var shiftPin = {
@@ -54,14 +69,14 @@
         y: moveEvt.clientY
       };
 
-      /* высчитываем текущие координаты перемещения pin */
+      /* высчитываем текущие координаты перемещения pin__main */
       var pinAddressCoord = {
         x: pinMain.offsetLeft - shiftPin.x + Math.floor(pinMainWidth / 2),
         y: pinMain.offsetTop - shiftPin.y + pinMainHeight
       };
 
-      /* ограничиваем зону перемещения pin ( условие pinAddressCoord.y >= 190 для того чтобы pin не выходил выше горизонта) */
-      if (pinAddressCoord.x >= 0 && pinAddressCoord.x <= MapAreaWidth && pinAddressCoord.y >= 190 && pinAddressCoord.y <= MapAreaHeight - tokyoFilterHeight) {
+      /* ограничиваем зону перемещения pin ( условие pinAddressCoord.y >= 190 для того чтобы pin__main не выходил выше горизонта) */
+      if (pinAddressCoord.x >= 0 && pinAddressCoord.x <= mapAreaWidth && pinAddressCoord.y >= 190 && pinAddressCoord.y <= mapAreaHeight - tokyoFilterHeight) {
         pinMain.style.top = (pinMain.offsetTop - shiftPin.y) + 'px';
         pinMain.style.left = (pinMain.offsetLeft - shiftPin.x) + 'px';
         /* выводим текущие кординаты в строку адрес */
@@ -70,16 +85,16 @@
     };
 
     /* удаляем слущатели событий */
-    var MouseUpHandler = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
-      document.removeEventListener('mousemove', MouseMoveHandler);
-      document.removeEventListener('mouseup', MouseUpHandler);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    document.addEventListener('mousemove', MouseMoveHandler);
-    document.addEventListener('mouseup', MouseUpHandler);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   };
 
-  pinMain.addEventListener('mousedown', movePinMainHandler);
+  pinMain.addEventListener('mousedown', pinMainMoveHandler);
 
 })();

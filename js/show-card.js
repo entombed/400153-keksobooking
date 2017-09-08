@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-
   /* переменная для работы с окном (dialog) подробной информации о предложении */
   var offerDialog = document.querySelector('#offer-dialog');
 
@@ -11,15 +10,15 @@
    *
    */
 
-  var showDialogDetails = function () {
-    var pin = window.getParentBySelector(event.target, 'pin');
+  var showDialogDetails = function (event) {
+    var pin = window.util.getParentBySelector(event.target, 'pin');
     if (pin && !pin.classList.contains('pin__main')) {
       pin.classList.add('pin--active');
       if (window.oldPin && window.oldPin !== pin) {
         window.oldPin.classList.remove('pin--active');
       }
       window.oldPin = pin;
-      window.createDialog(window.currentOffers[pin.dataset.countNumber]);
+      window.card.createDialog(window.currentOffers[pin.dataset.countNumber]);
       if (offerDialog.classList.contains('hidden')) {
         offerDialog.classList.remove('hidden');
       }
@@ -27,6 +26,8 @@
   };
 
   /* экпортируем в глобальную зону видимости */
-  window.showCard = showDialogDetails;
+  window.showCard = {
+    showCard: showDialogDetails,
+  };
 
 })();
