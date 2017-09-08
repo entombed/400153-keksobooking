@@ -2,13 +2,13 @@
 
 (function () {
   var avatarBlock = document.querySelector('.tokyo__pin-map'); // template для создания pin
+
     var filterPins = function (event, array, filter) {
       var doFilter1 = sortByType(array, filter['housing_type']['value'], 'type');
       var doFilter2 = getByPrice(doFilter1, filter['housing_price']['value'], 'price');
       var doFilter3 = sortArray(doFilter2, filter['housing_room-number']['value'], 'rooms');
       var doFilter4 = sortArray(doFilter3, filter['housing_guests-number']['value'], 'guests');
       console.log(doFilter4);
-      window.filter.doFilter4 = doFilter4;
       clearMap();
       window.pin.createPins(doFilter4, avatarBlock);
   };
