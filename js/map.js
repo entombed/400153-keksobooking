@@ -49,6 +49,7 @@
   /* загружаем данные с севрера и выводим сообщение в случае ошибки получения данных */
   window.backend.load(loadData, window.util.errorRequestHandler);
 
+  /* обрабатываем перемещение pin__main */
   var pinMainMoveHandler = function (event) {
     event.preventDefault();
 
@@ -58,7 +59,6 @@
       y: event.clientY
     };
 
-    /*  */
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       /* сдвиг относитено стартовых кооррдинат */
