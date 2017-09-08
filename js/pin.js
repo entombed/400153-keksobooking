@@ -83,6 +83,6 @@
 
   /* экспортируем в глобальную область видимости */
   window.pin = {
-    createPins: createPins
+    create: createPins
   };
 })();
