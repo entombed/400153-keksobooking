@@ -2,70 +2,65 @@
 
 (function () {
   var avatarBlock = document.querySelector('.tokyo__pin-map'); // template для создания pin
-
-
-  var filterPins = function (event, array, filter) {
-    var check = null;
-    switch (event.target.name.toLowerCase()) {
-      case 'housing_type':
-// проверяем тип
-        check = 'type';
-        sortArray(array, filter['housing_type']['value'], check);
-        break;
-      case 'housing_price':
-// проверяем цену
-        check = 'price';
-        getByPrice(array, filter['housing_price']['value'], check);
-        break;
-      case 'housing_room-number':
-// кол-во комнат
-        check = 'rooms';
-        sortArray(array, Number(filter['housing_room-number']['value']), check);
-        break;
-      case 'housing_guests-number':
-// кол-во гостей
-        check = 'guests';
-        sortArray(array, Number(filter['housing_guests-number']['value']), check);
-        break;
-    }
+    var filterPins = function (event, array, filter) {
+      var doFilter1 = sortByType(array, filter['housing_type']['value'], 'type');
+      var doFilter2 = getByPrice(doFilter1, filter['housing_price']['value'], 'price');
+      var doFilter3 = sortArray(doFilter2, filter['housing_room-number']['value'], 'rooms');
+      var doFilter4 = sortArray(doFilter3, filter['housing_guests-number']['value'], 'guests');
+      console.log(doFilter4);
+      window.filter.doFilter4 = doFilter4;
+      clearMap();
+      window.pin.createPins(doFilter4, avatarBlock);
   };
 
   var sortArray = function (array, data, check) {
-    if (data === 'any') {
-      newA = array;
-    } else {
-      var newA = array.filter(function (item) {
-        return item.offer[check] === data;
+    var filterRezult = null;
+    var tmpArray = array.filter(function (item) {
+        if (data === 'any') {
+          filterRezult = (item.offer[check] !== false);
+        } else {
+          filterRezult = (item.offer[check] === Number(data));
+        }
+        return filterRezult;
       });
-    }
-    clearMap();
-    window.pin.createPins(newA, avatarBlock);
-    console.log(check);
-    console.log(newA);
+    return tmpArray;
+  };
+
+  var sortByType = function (array, data, check) {
+    var filterRezult = null;
+    var tmpArray = array.filter(function (item) {
+        if (data === 'any') {
+          filterRezult = (item.offer[check] !== false);
+        } else {
+          filterRezult = (item.offer[check] === data);
+        }
+        return filterRezult;
+      });
+    return tmpArray;
   };
 
   var getByPrice = function (array, data, check) {
-    var newA = array.filter(function (item) {
-      var rez = null;
-      if (data === 'middle') {
-        rez = item.offer[check] <= 50000 && item.offer[check] >= 10000;
+    var filterRezult = null;
+    var tmpArray = array.filter(function (item) {
+      if (data === 'any') {
+        filterRezult = item.offer[check] !== false;
+      } else if (data === 'middle') {
+        filterRezult = item.offer[check] <= 50000 && item.offer[check] >= 10000;
       } else if (data === 'low') {
-        rez = item.offer[check] <= 10000;
+        filterRezult = item.offer[check] <= 10000;
       } else if (data === 'high') {
-        rez = item.offer[check] >= 50000;
+        filterRezult = item.offer[check] >= 50000;
       }
-      return rez;
+      return filterRezult;
     });
-    clearMap();
-    window.pin.createPins(newA, avatarBlock);
-    console.log(check);
-    console.log(newA);
+    return tmpArray;
   };
 
   var clearMap = function () {
     var pins = avatarBlock.querySelectorAll('.pin:not(.pin__main)');
     for (var i = 0; i < pins.length; i++) {
-      pins[i].classList.add('hidden');
+      // pins[i].classList.add('hidden');
+      pins[i].parentNode.removeChild(pins[i]);
     }
   };
   window.filter = {
