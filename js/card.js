@@ -39,6 +39,6 @@
 
   /* экспортируем в глобальную зону видимости */
   window.card = {
-    createDialog: createDialog
+    create: createDialog
   };
 })();
