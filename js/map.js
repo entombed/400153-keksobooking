@@ -4,7 +4,6 @@
   /* переменная для работы с pin__main */
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var pinMain = avatarBlock.querySelector('.pin__main');
-
   /* переменная для работы с полем адрес */
   var addressInput = document.getElementById('address');
 
@@ -40,6 +39,12 @@
       window.currentOffers = data;
       /* создание автарок (pin) */
       window.pin.createPins(data, avatarBlock);
+
+      //window.pinBlockHandler = window.util.clickHandler(window.showCard.showCard, window.currentOffers);
+      /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
+      avatarBlock.addEventListener('click', window.util.clickHandler(window.showCard.showCard, window.currentOffers));
+      avatarBlock.addEventListener('keydown', window.util.enterPressHandler(window.showCard.showCard, window.currentOffers));
+
     }
   };
 
@@ -99,6 +104,6 @@
   pinMain.addEventListener('mousedown', pinMainMoveHandler);
 
   tokyoFilter.addEventListener('change', function () {
-    window.filter.filterPins(event, window.currentOffers, tokyoFilterForm);
+    window.filter.filterPins(window.currentOffers, tokyoFilterForm);
   });
 })();
