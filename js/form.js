@@ -179,6 +179,7 @@
     event.preventDefault();
     if (statusField) {
       window.backend.save(resetToDefaultForm, window.util.errorRequestHandler, new FormData(form));
+      resetToDefaultForm();
     }
   });
 })();
