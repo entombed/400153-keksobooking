@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
+  /* время таймаута */
   var DEBOUNCE_INTERVAL = 2000;
   var lastTimeout = null;
+
   var debounce = function () {
     var args = Array.prototype.slice.call(arguments);
     var fun = args[0];
