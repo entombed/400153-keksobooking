@@ -10,9 +10,6 @@
   /* переменная для работы с окном (dialog) подробной информации о предложении */
   var offerDialog = document.querySelector('#offer-dialog');
 
-  /* переменная для работы с картой на которой размещаются аватарки (pin) */
-  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-
   /**
    * создание блока автарки с указанием стилей и позиции размещения на карте
    *
@@ -76,10 +73,6 @@
 
   /* скрывает окно с информацией */
   doHiddenDialogDetails();
-
-  /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
-  tokyoPinMap.addEventListener('click', window.util.clickHandler(window.showCard.showCard));
-  tokyoPinMap.addEventListener('keydown', window.util.enterPressHandler(window.showCard.showCard));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
   offerDialog.addEventListener('click', window.util.clickHandler(hiddenDialogDetails));
