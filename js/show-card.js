@@ -10,7 +10,7 @@
    *
    */
 
-  var showDialogDetails = function (event) {
+  var showDialogDetails = function (event, data) {
     var pin = window.util.getParentBySelector(event.target, 'pin');
     if (pin && !pin.classList.contains('pin__main')) {
       pin.classList.add('pin--active');
@@ -18,7 +18,7 @@
         window.oldPin.classList.remove('pin--active');
       }
       window.oldPin = pin;
-      window.card.createDialog(window.currentOffers[pin.dataset.countNumber]);
+      window.card.createDialog(data[pin.dataset.countNumber]);
       if (offerDialog.classList.contains('hidden')) {
         offerDialog.classList.remove('hidden');
       }
