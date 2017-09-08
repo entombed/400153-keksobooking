@@ -3,39 +3,43 @@
 (function () {
   var avatarBlock = document.querySelector('.tokyo__pin-map'); // template для создания pin
 
-    var filterPins = function (event, array, filter) {
-      var doFilter1 = sortByType(array, filter['housing_type']['value'], 'type');
-      var doFilter2 = getByPrice(doFilter1, filter['housing_price']['value'], 'price');
-      var doFilter3 = sortArray(doFilter2, filter['housing_room-number']['value'], 'rooms');
-      var doFilter4 = sortArray(doFilter3, filter['housing_guests-number']['value'], 'guests');
-      console.log(doFilter4);
-      clearMap();
-      window.pin.createPins(doFilter4, avatarBlock);
+  var filterPins = function (array, filter) {
+    var doFilter1 = sortByType(array, filter['housing_type']['value'], 'type');
+    var doFilter2 = getByPrice(doFilter1, filter['housing_price']['value'], 'price');
+    var doFilter3 = sortArray(doFilter2, filter['housing_room-number']['value'], 'rooms');
+    var doFilter4 = sortArray(doFilter3, filter['housing_guests-number']['value'], 'guests');
+    clearMap();
+    window.pinBlockHandler = window.util.clickHandler(window.showCard.showCard, doFilter4);
+
+    /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
+    avatarBlock.addEventListener('click', window.debounce.debounce(window.pin.createPins, doFilter4, avatarBlock));
+    avatarBlock.addEventListener('keydown', window.debounce.debounce(window.pin.createPins, doFilter4, avatarBlock));
+
   };
 
   var sortArray = function (array, data, check) {
     var filterRezult = null;
     var tmpArray = array.filter(function (item) {
-        if (data === 'any') {
-          filterRezult = (item.offer[check] !== false);
-        } else {
-          filterRezult = (item.offer[check] === Number(data));
-        }
-        return filterRezult;
-      });
+      if (data === 'any') {
+        filterRezult = (item.offer[check] !== false);
+      } else {
+        filterRezult = (item.offer[check] === Number(data));
+      }
+      return filterRezult;
+    });
     return tmpArray;
   };
 
   var sortByType = function (array, data, check) {
     var filterRezult = null;
     var tmpArray = array.filter(function (item) {
-        if (data === 'any') {
-          filterRezult = (item.offer[check] !== false);
-        } else {
-          filterRezult = (item.offer[check] === data);
-        }
-        return filterRezult;
-      });
+      if (data === 'any') {
+        filterRezult = (item.offer[check] !== false);
+      } else {
+        filterRezult = (item.offer[check] === data);
+      }
+      return filterRezult;
+    });
     return tmpArray;
   };
 
