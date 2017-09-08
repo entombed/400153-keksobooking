@@ -18,7 +18,7 @@
         window.oldPin.classList.remove('pin--active');
       }
       window.oldPin = pin;
-      window.card.createDialog(data[pin.dataset.countNumber]);
+      window.card.create(data[pin.dataset.countNumber]);
       if (offerDialog.classList.contains('hidden')) {
         offerDialog.classList.remove('hidden');
       }
@@ -27,7 +27,7 @@
 
   /* экпортируем в глобальную зону видимости */
   window.showCard = {
-    showCard: showDialogDetails,
+    open: showDialogDetails,
   };
 
 })();
