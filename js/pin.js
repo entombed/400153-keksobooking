@@ -7,9 +7,6 @@
     'pinHeight': 75,
   };
 
-  /* переменная для работы с окном (dialog) подробной информации о предложении */
-  var offerDialog = document.querySelector('#offer-dialog');
-
   /**
    * создание блока автарки с указанием стилей и позиции размещения на карте
    *
@@ -48,38 +45,6 @@
     }
     template.appendChild(fragment);
   };
-
-  /* скрывает окно с информацией о предолжении и убирает подсветку у активной автарки на карте */
-  var doHiddenDialogDetails = function () {
-    offerDialog.classList.add('hidden');
-    if (window.oldPin) {
-      window.oldPin.classList.remove('pin--active');
-    }
-  };
-
-  /**
-   * закртие окна инфрмации о предложении
-   *
-   * @param {any} event
-   */
-
-  var hiddenDialogDetails = function (event) {
-    if (window.util.getParentBySelector(event.target, 'dialog__close')) {
-      if (!offerDialog.classList.contains('hidden')) {
-        doHiddenDialogDetails();
-      }
-    }
-  };
-
-  /* скрывает окно с информацией */
-  doHiddenDialogDetails();
-
-  /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
-  offerDialog.addEventListener('click', window.util.clickHandler(hiddenDialogDetails));
-  offerDialog.addEventListener('keydown', window.util.enterPressHandler(hiddenDialogDetails));
-
-  /* вешаем обработчики на окно с подробной информацией о предолжении. закрытие по нажатию esc */
-  document.addEventListener('keydown', window.util.escPressHandler(doHiddenDialogDetails));
 
   /* экспортируем в глобальную область видимости */
   window.pin = {
