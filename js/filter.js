@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+
+  /* Переменная для работы с областью размещения pin */
   var avatarBlock = document.querySelector('.tokyo__pin-map');
 
   /**
