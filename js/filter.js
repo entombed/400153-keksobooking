@@ -1,73 +1,115 @@
 'use strict';
 
 (function () {
-  var avatarBlock = document.querySelector('.tokyo__pin-map'); // template для создания pin
+  var avatarBlock = document.querySelector('.tokyo__pin-map');
+
+  /**
+   * Выбирает предложения соответствующие фильтрам
+   *
+   * @param {array} array массив содержащий данные по предложениям
+   * @param {obj} filter форма содержащая фильтры
+   */
 
   var filterPins = function (array, filter) {
     var doFilter1 = sortByType(array, filter['housing_type']['value'], 'type');
     var doFilter2 = getByPrice(doFilter1, filter['housing_price']['value'], 'price');
     var doFilter3 = sortArray(doFilter2, filter['housing_room-number']['value'], 'rooms');
     var doFilter4 = sortArray(doFilter3, filter['housing_guests-number']['value'], 'guests');
+    /* очищаем все pin с карты */
     clearMap();
-    window.pinBlockHandler = window.util.clickHandler(window.showCard.showCard, doFilter4);
+
+    /* задержка отрисовки pin на карте */
+    window.debounce.debounce(window.pin.create, doFilter4, avatarBlock);
 
     /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
-    avatarBlock.addEventListener('click', window.debounce.debounce(window.pin.createPins, doFilter4, avatarBlock));
-    avatarBlock.addEventListener('keydown', window.debounce.debounce(window.pin.createPins, doFilter4, avatarBlock));
+    avatarBlock.onclick = window.util.clickHandler(window.showCard.open, doFilter4);
+    avatarBlock.onkeydown = window.util.clickHandler(window.showCard.open, doFilter4);
 
   };
 
-  var sortArray = function (array, data, check) {
+  /**
+   * выбираем данные из массива предложений
+   *
+   * @param {any} array  массив
+   * @param {any} data значение поля формы (данные string или int)
+   * @param {any} it ключ в массиве array
+   * @returns array найденные элементы
+   */
+
+  var sortArray = function (array, data, it) {
     var filterRezult = null;
     var tmpArray = array.filter(function (item) {
       if (data === 'any') {
-        filterRezult = (item.offer[check] !== false);
+        filterRezult = (item.offer[it] !== false);
       } else {
-        filterRezult = (item.offer[check] === Number(data));
+        filterRezult = (item.offer[it] === Number(data));
       }
       return filterRezult;
     });
     return tmpArray;
   };
 
-  var sortByType = function (array, data, check) {
+  /**
+   * выбираем данные из массива предложений
+   *
+   * @param {any} array  массив
+   * @param {any} data значение поля формы (все данные string)
+   * @param {any} it ключ в массиве array
+   * @returns array найденные элементы
+   */
+
+  var sortByType = function (array, data, it) {
     var filterRezult = null;
     var tmpArray = array.filter(function (item) {
       if (data === 'any') {
-        filterRezult = (item.offer[check] !== false);
+        filterRezult = (item.offer[it] !== false);
       } else {
-        filterRezult = (item.offer[check] === data);
+        filterRezult = (item.offer[it] === data);
       }
       return filterRezult;
     });
     return tmpArray;
   };
 
-  var getByPrice = function (array, data, check) {
+  /**
+   * выбираем данные из массива предложений
+   *
+   * @param {any} array  массив
+   * @param {any} data значение поля формы (все данные int)
+   * @param {any} it ключ в массиве array
+   * @returns array найденные элементы
+   */
+
+  var getByPrice = function (array, data, it) {
     var filterRezult = null;
     var tmpArray = array.filter(function (item) {
       if (data === 'any') {
-        filterRezult = item.offer[check] !== false;
+        filterRezult = item.offer[it] !== false;
       } else if (data === 'middle') {
-        filterRezult = item.offer[check] <= 50000 && item.offer[check] >= 10000;
+        filterRezult = item.offer[it] <= 50000 && item.offer[it] >= 10000;
       } else if (data === 'low') {
-        filterRezult = item.offer[check] <= 10000;
+        filterRezult = item.offer[it] <= 10000;
       } else if (data === 'high') {
-        filterRezult = item.offer[check] >= 50000;
+        filterRezult = item.offer[it] >= 50000;
       }
       return filterRezult;
     });
     return tmpArray;
   };
 
+  /**
+   * убираем с карты все объекты с классом pin кроме pin__main
+   *
+   */
   var clearMap = function () {
     var pins = avatarBlock.querySelectorAll('.pin:not(.pin__main)');
     for (var i = 0; i < pins.length; i++) {
-      // pins[i].classList.add('hidden');
       pins[i].parentNode.removeChild(pins[i]);
     }
   };
+
+  /* экспортируем в глобальную область видимости */
   window.filter = {
-    filterPins: filterPins
+    getSort: filterPins
   };
 }());
