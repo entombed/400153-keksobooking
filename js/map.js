@@ -38,13 +38,11 @@
       /* сохраняем полученные данные и экспортируем их в глобальную зону видимости */
       window.currentOffers = data;
       /* создание автарок (pin) */
-      window.pin.createPins(data, avatarBlock);
+      window.pin.create(data, avatarBlock);
 
-      //window.pinBlockHandler = window.util.clickHandler(window.showCard.showCard, window.currentOffers);
       /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
-      avatarBlock.addEventListener('click', window.util.clickHandler(window.showCard.showCard, window.currentOffers));
-      avatarBlock.addEventListener('keydown', window.util.enterPressHandler(window.showCard.showCard, window.currentOffers));
-
+      avatarBlock.onclick = window.util.clickHandler(window.showCard.open, window.currentOffers);
+      avatarBlock.onkeydown = window.util.clickHandler(window.showCard.open, window.currentOffers);
     }
   };
 
@@ -104,6 +102,6 @@
   pinMain.addEventListener('mousedown', pinMainMoveHandler);
 
   tokyoFilter.addEventListener('change', function () {
-    window.filter.filterPins(window.currentOffers, tokyoFilterForm);
+    window.filter.getSort(window.currentOffers, tokyoFilterForm);
   });
 })();
