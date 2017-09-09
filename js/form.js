@@ -173,10 +173,10 @@
   setRequiredParameters();
 
   /* передаем данные для синхронизации полей формы */
-  window.synchronizeFields.synchronizeFields('change', timeIn, timeOut, syncTimeField);
-  window.synchronizeFields.synchronizeFields('change', timeOut, timeIn, syncTimeField);
-  window.synchronizeFields.synchronizeFields('change', type, price, syncPriceField);
-  window.synchronizeFields.synchronizeFields('change', roomNumber, capacity, syncCapacityField);
+  window.synchronizeFields.doSync('change', timeIn, timeOut, syncTimeField);
+  window.synchronizeFields.doSync('change', timeOut, timeIn, syncTimeField);
+  window.synchronizeFields.doSync('change', type, price, syncPriceField);
+  window.synchronizeFields.doSync('change', roomNumber, capacity, syncCapacityField);
 
   /* слушатель события потери фокуса в поля формы */
   form.addEventListener('blur', checkBluerField, true);
