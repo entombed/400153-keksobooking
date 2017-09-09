@@ -39,19 +39,25 @@
   }
   escPressHandler.handlers = [];
 
-  /* callback функция обрабатывающая клик мышки */
-  var clickHandler = function clickHandler(callback) {
+  /* callback функция для обработки нажатия ENTER */
+  var enterPressHandler = function () {
+    var args = Array.prototype.slice.call(arguments);
+    var callback = args[0];
     return function (event) {
-      callback(event);
+      if (event.keyCode === KEYS_CODES['ENTER']) {
+        args.splice(0, 1, event);
+        callback.apply(null, args);
+      }
     };
   };
 
-  /* функция обрабатывающая нажатие клавиаши ENTER */
-  var enterPressHandler = function (callback) {
+  /* callback функция для обработки клика мышкой  */
+  var clickHandler = function () {
+    var args = Array.prototype.slice.call(arguments);
+    var callback = args[0];
     return function (event) {
-      if (event.keyCode === KEYS_CODES['ENTER']) {
-        callback(event);
-      }
+      args.splice(0, 1, event);
+      callback.apply(null, args);
     };
   };
 

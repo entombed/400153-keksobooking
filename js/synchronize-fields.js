@@ -19,6 +19,6 @@
 
   /* экпортируем в глобальную зону видимости */
   window.synchronizeFields = {
-    synchronizeFields: synchronizeFields
+    doSync: synchronizeFields
   };
 })();

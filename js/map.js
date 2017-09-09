@@ -4,7 +4,6 @@
   /* переменная для работы с pin__main */
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var pinMain = avatarBlock.querySelector('.pin__main');
-
   /* переменная для работы с полем адрес */
   var addressInput = document.getElementById('address');
 
@@ -19,6 +18,7 @@
   var mapAreaHeight = pinMain.offsetParent.offsetHeight;
   var mapAreaWidth = pinMain.offsetParent.offsetWidth;
   var tokyoFilter = mapArea.querySelector('.tokyo__filters-container');
+  var tokyoFilterForm = tokyoFilter.querySelector('.tokyo__filters');
   var tokyoFilterHeight = tokyoFilter.offsetHeight;
 
   /* все что выходит за границы области перемещения скрывается */
@@ -38,13 +38,18 @@
       /* сохраняем полученные данные и экспортируем их в глобальную зону видимости */
       window.currentOffers = data;
       /* создание автарок (pin) */
-      window.pin.createPins(data, avatarBlock);
+      window.pin.create(data, avatarBlock);
+
+      /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
+      avatarBlock.onclick = window.util.clickHandler(window.showCard.open, window.currentOffers);
+      avatarBlock.onkeydown = window.util.clickHandler(window.showCard.open, window.currentOffers);
     }
   };
 
   /* загружаем данные с севрера и выводим сообщение в случае ошибки получения данных */
   window.backend.load(loadData, window.util.errorRequestHandler);
 
+  /* обрабатываем перемещение pin__main */
   var pinMainMoveHandler = function (event) {
     event.preventDefault();
 
@@ -54,7 +59,6 @@
       y: event.clientY
     };
 
-    /*  */
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       /* сдвиг относитено стартовых кооррдинат */
@@ -97,4 +101,7 @@
 
   pinMain.addEventListener('mousedown', pinMainMoveHandler);
 
+  tokyoFilter.addEventListener('change', function () {
+    window.filter.getSort(window.currentOffers, tokyoFilterForm);
+  });
 })();

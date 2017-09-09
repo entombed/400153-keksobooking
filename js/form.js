@@ -100,6 +100,14 @@
   /* Сброс формы по умолчанию */
   var resetToDefaultForm = function () {
     form.reset();
+    syncPriceField(type, price);
+    syncCapacityField(roomNumber, capacity);
+    getPinMainPosition(pinMain);
+    address.setAttribute('readonly', 'readonly');
+  };
+
+  /* назначение параметров для полей формы */
+  var setRequiredParameters = function () {
     title.required = true;
     title.minLength = 30;
     title.maxLength = 100;
@@ -107,10 +115,6 @@
     price.type = 'number';
     price.max = 1000000;
     address.required = true;
-    syncPriceField(type, price);
-    syncCapacityField(roomNumber, capacity);
-    getPinMainPosition(pinMain);
-    address.setAttribute('readonly', 'readonly');
   };
 
   /**
@@ -165,20 +169,24 @@
   /* Сбрасываем значение полей формы */
   resetToDefaultForm();
 
+  /* Назначаем параметры для полей формы */
+  setRequiredParameters();
+
   /* передаем данные для синхронизации полей формы */
-  window.synchronizeFields.synchronizeFields('change', timeIn, timeOut, syncTimeField);
-  window.synchronizeFields.synchronizeFields('change', timeOut, timeIn, syncTimeField);
-  window.synchronizeFields.synchronizeFields('change', type, price, syncPriceField);
-  window.synchronizeFields.synchronizeFields('change', roomNumber, capacity, syncCapacityField);
+  window.synchronizeFields.doSync('change', timeIn, timeOut, syncTimeField);
+  window.synchronizeFields.doSync('change', timeOut, timeIn, syncTimeField);
+  window.synchronizeFields.doSync('change', type, price, syncPriceField);
+  window.synchronizeFields.doSync('change', roomNumber, capacity, syncCapacityField);
 
   /* слушатель события потери фокуса в поля формы */
   form.addEventListener('blur', checkBluerField, true);
 
-  /* Проверка правильности заполнения полей формы перед отправкой */
+  /* Проверка правильности заполнения полей формы перед отправкой и сброс параметров*/
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     if (statusField) {
       window.backend.save(resetToDefaultForm, window.util.errorRequestHandler, new FormData(form));
+      resetToDefaultForm();
     }
   });
 })();
