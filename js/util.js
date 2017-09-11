@@ -25,7 +25,7 @@
   };
 
   /* функция обрабатывающая нажатие клавиаши ESC */
-  function escPressHandler(callback) {
+  var escPressHandler = function (callback) {
     if (typeof callback === 'function' && escPressHandler.handlers.indexOf(callback) === -1) {
       escPressHandler.handlers.push(callback);
     }
@@ -36,7 +36,7 @@
         });
       }
     };
-  }
+  };
   escPressHandler.handlers = [];
 
   /* callback функция для обработки нажатия ENTER */

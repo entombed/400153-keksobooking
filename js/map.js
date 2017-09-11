@@ -5,7 +5,7 @@
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var pinMain = avatarBlock.querySelector('.pin__main');
   /* переменная для работы с полем адрес */
-  var addressInput = document.getElementById('address');
+  var addressInput = document.querySelector('#address');
 
   /* размеры картинки pin__main */
   var pinMainWidth = pinMain.offsetWidth;
