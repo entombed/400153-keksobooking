@@ -42,7 +42,7 @@
 
       /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
       avatarBlock.onclick = window.util.clickHandler(window.showCard.open, window.currentOffers);
-      avatarBlock.onkeydown = window.util.clickHandler(window.showCard.open, window.currentOffers);
+      avatarBlock.onkeydown = window.util.enterPressHandler(window.showCard.open, window.currentOffers);
     }
   };
 
