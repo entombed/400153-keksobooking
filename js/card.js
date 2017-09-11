@@ -52,7 +52,7 @@
    * @param {any} event
    */
 
-  var hiddenDialogDetails = function (event) {
+  var hideDialogDetails = function (event) {
     if (window.util.getParentBySelector(event.target, 'dialog__close')) {
       if (!dialog.classList.contains('hidden')) {
         doHiddenDialogDetails();
@@ -64,8 +64,8 @@
   doHiddenDialogDetails();
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. клик мышки на крестике и enter на кнопке закрыто окно */
-  dialog.addEventListener('click', window.util.clickHandler(hiddenDialogDetails));
-  dialog.addEventListener('keydown', window.util.enterPressHandler(hiddenDialogDetails));
+  dialog.addEventListener('click', window.util.clickHandler(hideDialogDetails));
+  dialog.addEventListener('keydown', window.util.enterPressHandler(hideDialogDetails));
 
   /* вешаем обработчики на окно с подробной информацией о предолжении. закрытие по нажатию esc */
   document.addEventListener('keydown', window.util.escPressHandler(doHiddenDialogDetails));

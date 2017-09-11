@@ -25,7 +25,7 @@
 
     /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
     avatarBlock.onclick = window.util.clickHandler(window.showCard.open, doFilter4);
-    avatarBlock.onkeydown = window.util.clickHandler(window.showCard.open, doFilter4);
+    avatarBlock.onkeydown = window.util.enterPressHandler(window.showCard.open, doFilter4);
 
   };
 

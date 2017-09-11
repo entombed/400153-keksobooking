@@ -48,10 +48,10 @@
         value = 0;
         break;
       case 'house':
-        value = 5000;
+        value = 10000;
         break;
       case 'palace':
-        value = 10000;
+        value = 20000;
         break;
     }
     field2.value = value;

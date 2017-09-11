@@ -5,7 +5,7 @@
   var avatarBlock = document.querySelector('.tokyo__pin-map');
   var pinMain = avatarBlock.querySelector('.pin__main');
   /* переменная для работы с полем адрес */
-  var addressInput = document.getElementById('address');
+  var addressInput = document.querySelector('#address');
 
   /* размеры картинки pin__main */
   var pinMainWidth = pinMain.offsetWidth;
@@ -42,7 +42,7 @@
 
       /* вешаем обработчики на аватарки расположенные на карте. клик мышки на автарке, enter на автарке в фокусе */
       avatarBlock.onclick = window.util.clickHandler(window.showCard.open, window.currentOffers);
-      avatarBlock.onkeydown = window.util.clickHandler(window.showCard.open, window.currentOffers);
+      avatarBlock.onkeydown = window.util.enterPressHandler(window.showCard.open, window.currentOffers);
     }
   };
 
